@@ -1,0 +1,96 @@
+
+.bodyDialog {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding:2%;
+  }
+
+
+
+.contenedorDialog {
+    width: 80vw;  /* Ancho del 80% de la pantalla */
+    max-width: 100vw;  /* Máximo ancho del 100% de la pantalla */
+    height: 80vh;  /* Alto del 80% de la pantalla */
+    max-height: 80vh;  /* Máximo alto del 100% de la pantalla */
+    overflow: scroll;
+}
+
+mat-form-field {
+    width: 100%; 
+    margin-top: 15px;
+}  
+
+.mat-mdc-form-field, input {
+    width: 100%; 
+    font-size: 16px;
+    font-family: "Voltaire", sans-serif;
+    justify-content: center;
+}
+
+
+/* Alineación de los botones en el diálogo */
+mat-dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* Añadir margen entre los botones */
+button {
+    margin-left: 10px;
+    font-family: "Voltaire", sans-serif;
+    font-size: 16px;
+}
+
+/* Estilo de los botones */
+button.mat-raised-button {
+    background-color: #3f51b5;
+    color: white;
+}
+
+button.mat-raised-button:hover {
+    background-color: #303f9f;
+}
+
+/* Estilo personalizado para el contenedor de los botones */
+.grupoBtn {
+    justify-content: flex-end;
+    margin-bottom: 20px;
+    margin-right: 10px;
+    display: flex;
+}
+
+/* Estilo del título del diálogo */
+h1 {
+    margin: 0;
+    text-align: center;
+    font-family: "Kanit", sans-serif;
+    font-weight: normal;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 80px;
+    color: #fff;
+    background: #2bcd71;
+    border-radius: 10px;
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+button.cancelarBtn {
+    color: #ffffff;
+    background-color: #282fb2;
+    font-size: 16px;
+}
+
+button.aceptarBtn {
+    color: #ffffff;
+    background-color: #2bcd71;
+    font-size: 16px;
+}
+
+.logo {
+    height: 40px;
+    margin-left: 10px;
+}
+

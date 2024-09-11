@@ -1,5 +1,4 @@
-<ng-container *ngIf="!isLoginPage()">
-    <app-sidenav></app-sidenav>
-  </ng-container>
+<ng-container *ngIf="showSidenav">
+  <app-sidenav></app-sidenav>
+</ng-container>
 <router-outlet></router-outlet>
-  

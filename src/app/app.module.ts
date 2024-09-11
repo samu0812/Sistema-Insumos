@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './components/login/login.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -20,19 +19,31 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatTableModule} from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { SharedModule } from './shared/shared.module';
-
+import { LoginComponent } from './components/login/login.component';
+import {MatDialogModule} from '@angular/material/dialog';
+import { AgregarinsumosComponent } from './components/dialogs/insumos/insumos.component';
+import { InsumosComponent } from './components/insumos/insumos.component';
+import { MatTabsModule } from '@angular/material/tabs';
+import { AgregarPcComponent } from './components/dialogs/agregarpc/agregarpc.component';
+import { MatSelectModule } from '@angular/material/select';
+import { AgregarusuarioComponent } from './components/dialogs/agregarusuario/agregarusuario.component';
+import {MatMenuModule} from '@angular/material/menu';
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     HomeComponent,
     UsuariosComponent,
-    SidenavComponent
+    SidenavComponent,
+    AgregarinsumosComponent,
+    InsumosComponent,
+    AgregarPcComponent,
+    AgregarusuarioComponent
+  
+    
   ],
   imports: [
     BrowserModule,
-    SharedModule,
     AppRoutingModule,
     FormsModule,
     MatButtonModule,
@@ -47,7 +58,11 @@ import { SharedModule } from './shared/shared.module';
     LayoutModule,
     BrowserAnimationsModule,
     MatTableModule,
-    MatPaginatorModule 
+    MatPaginatorModule, 
+    MatDividerModule,
+    MatTabsModule,
+    MatSelectModule,
+    MatMenuModule
 
   ],
   providers: [],

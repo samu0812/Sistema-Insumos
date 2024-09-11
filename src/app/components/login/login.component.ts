@@ -14,9 +14,11 @@ export class LoginComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    console.log('LoginComponent loaded');
   }
 
   togglePasswordVisibility() {
     this.hidePassword = !this.hidePassword;
   }
+
 }

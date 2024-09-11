@@ -22,8 +22,13 @@
     height: calc(100svh - 65px);
   }
   
-  .mat-list-item, .mat-icon {
+  .mat-list-item, .mat-icon, span {
     color: #ffffff !important;
+
+  }
+  .mat-list-item, span {
+    color: #ffffff !important;
+    font-family: "Voltaire", sans-serif;
   }
   
   .logo-container {
@@ -39,4 +44,3 @@
     height: 40px;
     border-radius: 50%;
   }
-  

@@ -1,56 +1,101 @@
 table {
-    width: 100%;
-    
-  }
-  
-  .mat-mdc-form-field {
-    font-size: 14px;
-    width: 100%;
-  }
-  
-  td, th {
-    width: 25%;
-  }
+  width: 100%;
+
+}
+
+.mat-mdc-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+td, th {
+  width: 25%;
+}
+
+table th{
+  background-color: #000000;
+  color: rgb(255, 255, 255);
+  font-family: "Voltaire", sans-serif;
+}
+
+section {
+  display: table;
+}
+
+.example-label {
+  display: table-cell;
+  font-size: 14px;
+  margin-left: 8px;
+  min-width: 120px;
+}
+
+.example-button-row {
+  display: table-cell;
+  max-width: 600px;
+}
+
+.example-button-row .mat-mdc-button-base {
+  margin: 8px 8px 8px 0;
+}
+
+.example-flex-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.example-button-container {
+  display: flex;
+  justify-content: center;
+}
+
+.grupoBtn{
+  justify-content: end;
+  margin-bottom: 20px;
+  display: flex;
+  font-family: "Kanit", sans-serif;
+}
+i{
+color: #fff;
+margin-right: 3px;
+}
+button {
+color: #ffffff;
+background-color: #282fb2;
+font-family: "Voltaire", sans-serif;
   .mat-icon{
-    margin-top: auto;
+    margin-top: initial;
+    color: #fff;
   }
-  table th{
-    background-color: #000000;
-    color: rgb(255, 255, 255);
-  }
+}
 
-  section {
-    display: table;
-  }
-  
-  .example-label {
-    display: table-cell;
-    font-size: 14px;
-    margin-left: 8px;
-    min-width: 120px;
-  }
-  
-  .example-button-row {
-    display: table-cell;
-    max-width: 600px;
-  }
-  
-  .example-button-row .mat-mdc-button-base {
-    margin: 8px 8px 8px 0;
-  }
-  
-  .example-flex-container {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-  }
-  
-  .example-button-container {
-    display: flex;
-    justify-content: center;
-    width: 120px;
-  }
 
-  .grupoBtn{
-    margin-bottom: 20px;
-  }
+.cabezera{
+display: flex; /* Utiliza flexbox para el contenedor */
+justify-content: center; /* Centra horizontalmente */
+align-items: center; /* Centra verticalmente */
+}
+.header {
+display: inline-flex;
+justify-content: center; /* Centra el contenido horizontalmente */
+align-items: center;
+padding: 10px;
+color: #fff;
+margin-bottom: 10px;
+background: #2bcd71; /* Color de fondo */
+border-radius: 10px; /* Bordes redondeados */
+padding: 5px 80px; /* Espacio interno reducido */
+align-items: center; /* Alinea los elementos hijos verticalmente */
+}
+
+.header h2 {
+margin: 0;
+text-align: center; /* Asegura que el texto esté centrado */
+font-family: "Kanit", sans-serif;
+font-weight: initial;
+font-style: normal;
+}
+.logo {
+height: 40px;
+margin-left: 10px;
+}
+
