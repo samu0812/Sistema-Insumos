@@ -99,3 +99,17 @@ height: 40px;
 margin-left: 10px;
 }
 
+.btnMenu {
+  background-color: #282fb2;
+  text-align: center;
+  justify-content: center;
+  display: flex; /* Asegura que el contenido sea un contenedor flex */
+  align-items: center; /* Centra el ícono verticalmente */
+  justify-content: center; /* Centra el ícono horizontalmente */
+  padding: 8px; /* Ajusta el padding si es necesario */
+}
+
+.mat-icon {
+  margin: 0; /* Elimina cualquier margen innecesario */
+  color: #fff;
+}

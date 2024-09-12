@@ -28,6 +28,11 @@ import { AgregarPcComponent } from './components/dialogs/agregarpc/agregarpc.com
 import { MatSelectModule } from '@angular/material/select';
 import { AgregarusuarioComponent } from './components/dialogs/agregarusuario/agregarusuario.component';
 import {MatMenuModule} from '@angular/material/menu';
+import { PrestamosComponent } from './components/prestamos/prestamos.component';
+import { PedidosComponent } from './components/pedidos/pedidos.component';
+import { ReportesComponent } from './components/reportes/reportes.component';
+import { ParametrosComponent } from './components/parametros/parametros.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,7 +43,11 @@ import {MatMenuModule} from '@angular/material/menu';
     AgregarinsumosComponent,
     InsumosComponent,
     AgregarPcComponent,
-    AgregarusuarioComponent
+    AgregarusuarioComponent,
+    PrestamosComponent,
+    PedidosComponent,
+    ReportesComponent,
+    ParametrosComponent
   
     
   ],
@@ -62,7 +71,8 @@ import {MatMenuModule} from '@angular/material/menu';
     MatDividerModule,
     MatTabsModule,
     MatSelectModule,
-    MatMenuModule
+    MatMenuModule,
+    MatCheckboxModule
 
   ],
   providers: [],

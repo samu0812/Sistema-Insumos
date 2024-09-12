@@ -20,11 +20,12 @@ export interface InsumoData {
 }
 
 @Component({
-  selector: 'app-insumos',
-  templateUrl: './insumos.component.html',
-  styleUrls: ['./insumos.component.css']
+  selector: 'app-prestamos',
+  templateUrl: './prestamos.component.html',
+  styleUrl: './prestamos.component.css'
 })
-export class InsumosComponent implements AfterViewInit {
+
+export class PrestamosComponent implements AfterViewInit {
   displayedColumns: string[] = ['select', 'nombre', 'codigo', 'descripcion', 'marca', 'observaciones', 'cantidad', 'condicion', 'ubicacion', 'estado', 'acciones'];
   dataSource: MatTableDataSource<InsumoData>;
   selection = new SelectionModel<InsumoData>(true, []); // Para habilitar selección múltiple
