@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild, ViewEncapsulation  } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -24,6 +24,7 @@ export interface UserData {
   selector: 'app-usuarios',
   templateUrl: './usuarios.component.html',
   styleUrls: ['./usuarios.component.css'],
+  encapsulation: ViewEncapsulation.None 
 })
 export class UsuariosComponent implements AfterViewInit {
   displayedColumns: string[] = ['id', 'nombre', 'apellido', 'dni', 'fechaNacimiento', 'telefono', 'usuario', 'sede', 'rol','acciones'];
@@ -42,13 +43,16 @@ export class UsuariosComponent implements AfterViewInit {
     this.dataSource = new MatTableDataSource(users);
   }
 
-  openDialog(): void {
-    const dialogRef = this.dialog.open(AgregarusuarioComponent);
-
+  openDialog(action: string, user?: UserData): void {
+    const dialogRef = this.dialog.open(AgregarusuarioComponent, {
+      data: { type: action, user: user }
+    });
+  
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
     });
   }
+  
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;

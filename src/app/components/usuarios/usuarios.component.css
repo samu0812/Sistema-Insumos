@@ -12,12 +12,6 @@ td, th {
   width: 25%;
 }
 
-table th{
-  background-color: #000000;
-  color: rgb(255, 255, 255);
-  font-family: "Voltaire", sans-serif;
-}
-
 section {
   display: table;
 }
@@ -53,21 +47,19 @@ section {
   margin-bottom: 20px;
   display: flex;
   font-family: "Kanit", sans-serif;
+  .usuarioBtn {
+    color: #ffffff;
+    background-color: #282fb2;
+    font-family: "Voltaire", sans-serif;
+    margin: 8px 8px 8px 0;
+  }
+  
+  
 }
 i{
 color: #fff;
 margin-right: 3px;
 }
-button {
-color: #ffffff;
-background-color: #282fb2;
-font-family: "Voltaire", sans-serif;
-  .mat-icon{
-    margin-top: initial;
-    color: #fff;
-  }
-}
-
 
 .cabezera{
 display: flex; /* Utiliza flexbox para el contenedor */
@@ -99,17 +91,42 @@ height: 40px;
 margin-left: 10px;
 }
 
+/* Estilo del botón que despliega el menú */
 .btnMenu {
-  background-color: #282fb2;
+  background-color: #282fb2; /* Color de fondo azul para el botón */
   text-align: center;
   justify-content: center;
-  display: flex; /* Asegura que el contenido sea un contenedor flex */
-  align-items: center; /* Centra el ícono verticalmente */
-  justify-content: center; /* Centra el ícono horizontalmente */
-  padding: 8px; /* Ajusta el padding si es necesario */
+  display: flex;
+  align-items: center;
+  padding: 8px;
 }
 
 .mat-icon {
-  margin: 0; /* Elimina cualquier margen innecesario */
-  color: #fff;
+  margin: 0;
+  color: #fff; /* Color blanco para los íconos */
+}
+
+/* Fondo del menú */
+.mat-menu-panel {
+  background-color: #282fb2 !important; /* Fondo azul oscuro para el menú */
+}
+
+/* Color del texto en el menú */
+.mat-menu-item {
+  color: #ffffff !important; /* Color blanco para los elementos del menú */
+}
+
+/* Estilo de los íconos dentro del menú */
+.mat-menu-item .mat-icon {
+  color: #ffffff !important; /* Íconos blancos en el menú */
+}
+/* Cambia el selector general a una clase específica */
+
+
+table th {
+  background-color: #000000 !important;
+  color: rgb(255, 255, 255) !important;
+  font-family: "Voltaire", sans-serif;
+  text-align: left; /* Para asegurar que el texto quede alineado a la izquierda */
+  padding: 12px 8px; /* Ajusta el padding según lo necesites */
 }

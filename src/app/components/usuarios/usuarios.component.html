@@ -10,10 +10,10 @@
     <div class="example-button-row">
       <div class="example-flex-container">
         <div class="example-button-container">
-          <button mat-fab extended (click)="openDialog()">
+          <button mat-fab extended (click)="openDialog('agregar')" class="usuarioBtn" >
             <mat-icon>person_add</mat-icon>
             Agregar Usuario
-          </button>
+          </button>          
         </div>
       </div>
     </div>
@@ -90,17 +90,13 @@
             <mat-icon>settings</mat-icon>
           </button>
           <mat-menu #menu="matMenu" class="opcionesMenu">
-            <button mat-menu-item>
-              <mat-icon>how_to_reg </mat-icon>
-              <span>Asignar Usuario</span>
+            <button mat-menu-item (click)="openDialog('editar', row)">
+              <mat-icon>how_to_reg</mat-icon>
+              <span>Editar Usuario</span>
             </button>
-            <button mat-menu-item>
+            <button mat-menu-item (click)="openDialog('editarDatos', row)">
               <mat-icon>assignment_ind</mat-icon>
-              <span>Asignar Rol</span>
-            </button>
-            <button mat-menu-item>
-              <mat-icon>edit</mat-icon>
-              <span>Editar</span>
+              <span>Editar Datos Personales</span>
             </button>
             <button mat-menu-item>
               <mat-icon>block</mat-icon>
