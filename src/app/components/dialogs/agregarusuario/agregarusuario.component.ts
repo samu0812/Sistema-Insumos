@@ -14,11 +14,11 @@ export interface UserData {
 @Component({
   selector: 'app-agregarusuario',
   template: `
-    <h1 mat-dialog-title *ngIf="data.type === 'agregar' || data.type === 'editarDatos'">
+    <h1 *ngIf="data.type === 'agregar' || data.type === 'editarDatos'">
       {{ data.type === 'agregar' ? 'Agregar Usuario' : 'Editar Usuario' }}
       <img src="../../../../assets/usuarios.png" class="logo">
     </h1>
-    <h1 mat-dialog-title *ngIf="data.type === 'editar'">
+    <h1  *ngIf="data.type === 'editar'">
       Editar Usuario
       <img src="../../../../assets/usuarios.png" class="logo">
     </h1>

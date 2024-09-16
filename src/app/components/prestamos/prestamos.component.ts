@@ -6,18 +6,30 @@ import { MatDialog } from '@angular/material/dialog';
 import { SelectionModel } from '@angular/cdk/collections';
 import { AgregarinsumosComponent } from '../dialogs/insumos/insumos.component';
 import { AgregarPcComponent } from '../dialogs/agregarpc/agregarpc.component';
+import { PrestamosdialogComponent } from '../dialogs/prestamosdialog/prestamosdialog.component';
 
 export interface InsumoData {
+  idInsumos: number;
+  idPrestamos: number;
+  fechaInicio: string;
+  fechaVencimiento: string;
+  fechaDevolucion: string;
   nombre: string;
-  codigo: string;
+  apellido: string;
+  dni: string;
+  firma: string;
+  lugar: string;
+  idUsuario: number;
+  nombreUsuario: string;
+  idTipoPrestario: number;
   descripcion: string;
-  marca: string;
-  observaciones: string;
-  cantidad: number;
-  condicion: string;
-  ubicacion: string;
-  estado: string;
+  idEstado: number; // Nueva propiedad
+  estado: string;   // Nueva propiedad
+  idCondicion: number; // Nueva propiedad
+  condicion: string;   // Nueva propiedad
 }
+
+
 
 @Component({
   selector: 'app-prestamos',
@@ -26,7 +38,8 @@ export interface InsumoData {
 })
 
 export class PrestamosComponent implements AfterViewInit {
-  displayedColumns: string[] = ['select', 'nombre', 'codigo', 'descripcion', 'marca', 'observaciones', 'cantidad', 'condicion', 'ubicacion', 'estado', 'acciones'];
+  displayedColumns: string[] = ['idInsumos', 'idPrestamos', 'fechaInicio', 'fechaVencimiento', 'fechaDevolucion', 'nombre', 'apellido', 'dni', 'firma', 'lugar', 'nombreUsuario', 'descripcion', 'idEstado', 'estado', 'idCondicion', 'condicion','acciones'];
+
   dataSource: MatTableDataSource<InsumoData>;
   selection = new SelectionModel<InsumoData>(true, []); // Para habilitar selección múltiple
 
@@ -35,16 +48,31 @@ export class PrestamosComponent implements AfterViewInit {
 
   constructor(public dialog: MatDialog) {
     const insumos: InsumoData[] = [
-      { nombre: 'Memoria RAM', codigo: '1234', descripcion: '8GB DDR4', marca: 'Corsair', observaciones: 'Nueva', cantidad: 10, condicion: 'Nuevo', ubicacion: 'Estante 1', estado: 'Activo' },
-      { nombre: 'Memoria RAM', codigo: '1234', descripcion: '8GB DDR4', marca: 'Corsair', observaciones: 'Nueva', cantidad: 10, condicion: 'Nuevo', ubicacion: 'Estante 1', estado: 'Activo' },
-      { nombre: 'Memoria RAM', codigo: '1234', descripcion: '8GB DDR4', marca: 'Corsair', observaciones: 'Nueva', cantidad: 10, condicion: 'Nuevo', ubicacion: 'Estante 1', estado: 'Activo' },
-      { nombre: 'Memoria RAM', codigo: '1234', descripcion: '8GB DDR4', marca: 'Corsair', observaciones: 'Nueva', cantidad: 10, condicion: 'Nuevo', ubicacion: 'Estante 1', estado: 'Activo' },
-      // Add more sample data here
+      {
+        idInsumos: 1,
+        idPrestamos: 101,
+        fechaInicio: '2023-09-01',
+        fechaVencimiento: '2023-09-15',
+        fechaDevolucion: '',
+        nombre: 'Juan',
+        apellido: 'Pérez',
+        dni: '12345678',
+        firma: 'JuanP',
+        lugar: 'Sala A',
+        idUsuario: 1,
+        nombreUsuario: 'jperez',
+        idTipoPrestario: 1,
+        descripcion: 'Préstamo de equipo',
+        idEstado: 1,
+        estado: 'Activo',
+        idCondicion: 2,
+        condicion: 'Bueno'
+      }
     ];
-
+  
     this.dataSource = new MatTableDataSource(insumos);
   }
-
+  
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -60,43 +88,10 @@ export class PrestamosComponent implements AfterViewInit {
     }
   }
 
-  // Lógica de selección de filas
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
-  }
 
-  isIndeterminate() {
-    return this.selection.selected.length > 0 && !this.isAllSelected();
-  }
 
-  toggleRow(row: InsumoData) {
-    this.selection.toggle(row);
-  }
-
-  selectAllRows() {
-    this.isAllSelected() ?
-      this.selection.clear() :
-      this.dataSource.data.forEach(row => this.selection.select(row));
-  }
-
-  selectRow(row: InsumoData) {
-    this.selection.toggle(row);
-  }
-
-  openDialog(type: string): void {
-    const dialogRef = this.dialog.open(AgregarinsumosComponent, {
-      data: { type }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
-  }
-
-  openDialogAgregarPc(): void {
-    const dialogRef = this.dialog.open(AgregarPcComponent);
+  openDialog(): void {
+    const dialogRef = this.dialog.open(PrestamosdialogComponent);
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');

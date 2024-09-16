@@ -2,7 +2,10 @@ table {
     width: 100%;
 
   }
-  
+  .table-container {
+    width: 100%;
+    overflow-x: auto; /* Permite el scroll horizontal si es necesario */
+  }
   .mat-mdc-form-field {
     font-size: 14px;
     width: 100%;
@@ -96,7 +99,7 @@ button {
 .header h2 {
   margin: 0;
   text-align: center; /* Asegura que el texto esté centrado */
-  font-family: "Kanit", sans-serif;
+  font-family: "Voltaire", sans-serif;
   font-weight: initial;
   font-style: normal;
 }

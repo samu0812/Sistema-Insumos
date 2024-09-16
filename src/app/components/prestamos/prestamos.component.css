@@ -1,85 +1,72 @@
-table {
-    width: 100%;
 
-  }
-  
-  .mat-mdc-form-field {
-    font-size: 14px;
-    width: 100%;
-  }
-  
-  td, th {
-    width: 25%;
-  }
-  .mat-icon{
-    margin-top: initial;
-    color: #fff;
-  }
-  table th{
-    background-color: #000000;
-    color: rgb(255, 255, 255);
-    font-family: "Voltaire", sans-serif;
-  }
-
-  section {
-    display: table;
-  }
-  
-  .label {
-    display: table-cell;
-    font-size: 14px;
-    margin-left: 8px;
-    min-width: 120px;
-  }
-  
-  .button-row {
-    display: table-cell;
-    max-width: 600px;
-  }
-  
-  .button-row .mat-mdc-button-base {
-    margin: 8px 8px 8px 0;
-  }
-  
-  .flex-container {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .button-container {
-    display: flex;
-    justify-content: center;
-    margin-right: 16px;
-  }  
-
-  .grupoBtn{
-    justify-content: center;
-    margin-bottom: 20px;
-    display: flex;
-    font-family: "Kanit", sans-serif;
-  }
-i{
-  color: #fff;
-  margin-right: 3px;
+/* Estilos para el contenedor de la tabla */
+.table-container {
+  width: 100%;
+  overflow-x: auto; /* Permite el scroll horizontal si es necesario */
 }
+
+/* Estilos para la tabla */
+table {
+  width: 100%;
+}
+.mat-mdc-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+td, th {
+  width: 25%;
+}
+.mat-icon{
+  margin-top: initial;
+  color: #fff;
+}
+table th{
+  background-color: #000000;
+  color: rgb(255, 255, 255);
+  font-family: "Voltaire", sans-serif;
+}
+
+section {
+  display: table;
+}
+
+.label {
+  display: table-cell;
+  font-size: 14px;
+  margin-left: 8px;
+  min-width: 120px;
+}
+
+.mat-form-field {
+  width: 100%; /* Asegura que el campo de búsqueda ocupe todo el ancho disponible */
+}
+
+/* Estilos para el formulario de búsqueda */
+mat-form-field {
+  margin-bottom: 16px; /* Espaciado debajo del campo de búsqueda */
+}
+
+/* Estilos para los botones */
 button {
   color: #ffffff;
   background-color: #868484;
   font-family: "Voltaire", sans-serif;
-
   padding: 8px 16px; /* Espacio interno para el texto y los íconos */
   white-space: nowrap; /* Evita que el texto se corte en varias líneas */
 }
 
-.btnPedido, .btnPc{
+/* Botones específicos */
+.btnPedido, .btnPc {
   background-color: #282fb2;
-  
 }
-.cabezera{
+
+.cabezera {
   display: flex; /* Utiliza flexbox para el contenedor */
   justify-content: center; /* Centra horizontalmente */
   align-items: center; /* Centra verticalmente */
 }
+
 .header {
   display: inline-flex;
   justify-content: center; /* Centra el contenido horizontalmente */
@@ -96,25 +83,39 @@ button {
 .header h2 {
   margin: 0;
   text-align: center; /* Asegura que el texto esté centrado */
-  font-family: "Kanit", sans-serif;
+  font-family: "Voltaire", sans-serif;
   font-weight: initial;
   font-style: normal;
 }
+
 .logo {
   height: 60px;
   margin-left: 10px;
 }
+
 .btnMenu {
   background-color: #282fb2;
   text-align: center;
   justify-content: center;
   display: flex; /* Asegura que el contenido sea un contenedor flex */
   align-items: center; /* Centra el ícono verticalmente */
-  justify-content: center; /* Centra el ícono horizontalmente */
   padding: 8px; /* Ajusta el padding si es necesario */
 }
 
 .mat-icon {
   margin: 0; /* Elimina cualquier margen innecesario */
   color: #fff;
+}
+/* Estilos para el paginador */
+mat-paginator {
+  margin-top: 16px; /* Espacio superior para el paginador */
+  background-color: #f1f1ff;
+}
+
+
+/* Ajustes para pantallas pequeñas */
+@media (max-width: 600px) {
+  table {
+    font-size: 12px; /* Ajusta el tamaño de fuente para pantallas pequeñas */
+  }
 }

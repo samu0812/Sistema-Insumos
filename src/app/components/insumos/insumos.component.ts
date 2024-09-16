@@ -6,6 +6,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { SelectionModel } from '@angular/cdk/collections';
 import { AgregarinsumosComponent } from '../dialogs/insumos/insumos.component';
 import { AgregarPcComponent } from '../dialogs/agregarpc/agregarpc.component';
+import { RealizarprestamodialogComponent } from '../dialogs/realizarprestamodialog/realizarprestamodialog.component';
+import { GenerarpedidodialogComponent } from '../dialogs/generarpedidodialog/generarpedidodialog.component';
 
 export interface InsumoData {
   nombre: string;
@@ -101,4 +103,34 @@ export class InsumosComponent implements AfterViewInit {
       console.log('The dialog was closed');
     });
   }
+  openDialogPrestamo(): void {
+    console.log('Insumos seleccionados:', this.selection.selected); // Para depuración
+    if (this.selection.selected.length > 0) {
+      const dialogRef = this.dialog.open(RealizarprestamodialogComponent, {
+        data: { selectedInsumos: this.selection.selected }
+      });
+  
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed', result);
+      });
+    } else {
+      alert('No hay insumos seleccionados para realizar el préstamo');
+    }
+  }
+
+  openDialogPedido(): void {
+    console.log('Insumos seleccionados:', this.selection.selected); // Para depuración
+    if (this.selection.selected.length > 0) {
+      const dialogRef = this.dialog.open(GenerarpedidodialogComponent, {
+        data: { selectedInsumos: this.selection.selected }
+      });
+  
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed', result);
+      });
+    } else {
+      alert('No hay insumos seleccionados para realizar el préstamo');
+    }
+  }
+  
 }

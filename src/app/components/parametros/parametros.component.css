@@ -1,0 +1,141 @@
+table {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+  .table-container {
+    width: 100%;
+    overflow-x: auto; /* Permite el scroll horizontal si es necesario */
+  }
+  .mat-mdc-form-field {
+    font-size: 14px;
+    width: 100%;
+  }
+  
+  td, th {
+    width: 25%;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  section {
+    display: table;
+  }
+  
+  .example-label {
+    display: table-cell;
+    font-size: 14px;
+    margin-left: 8px;
+    min-width: 120px;
+  }
+  
+  .example-button-row {
+    display: table-cell;
+    max-width: 600px;
+  }
+  
+  .example-button-row .mat-mdc-button-base {
+    margin: 8px 8px 8px 0;
+  }
+  
+  .example-flex-container {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .example-button-container {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .grupoBtn{
+    justify-content: end;
+    margin-bottom: 20px;
+    display: flex;
+    font-family: "Kanit", sans-serif;
+    .usuarioBtn {
+      color: #ffffff;
+      background-color: #282fb2;
+      font-family: "Voltaire", sans-serif;
+      margin: 8px 8px 8px 0;
+    }
+    
+    
+  }
+  i{
+  color: #fff;
+  margin-right: 3px;
+  }
+  
+  .cabezera{
+  display: flex; /* Utiliza flexbox para el contenedor */
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
+  }
+  .header {
+  display: inline-flex;
+  justify-content: center; /* Centra el contenido horizontalmente */
+  align-items: center;
+  padding: 10px;
+  color: #fff;
+  margin-bottom: 10px;
+  background: #2bcd71; /* Color de fondo */
+  border-radius: 10px; /* Bordes redondeados */
+  padding: 5px 80px; /* Espacio interno reducido */
+  align-items: center; /* Alinea los elementos hijos verticalmente */
+  }
+  
+  .header h2 {
+  margin: 0;
+  text-align: center; /* Asegura que el texto esté centrado */
+  font-family: "Voltaire", sans-serif;
+  font-weight: initial;
+  font-style: normal;
+  }
+  .logo {
+  height: 40px;
+  margin-left: 10px;
+  }
+  
+  /* Estilo del botón que despliega el menú */
+  .btnMenu {
+    background-color: #282fb2; /* Color de fondo azul para el botón */
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    padding: 8px;
+  }
+  
+  .mat-icon {
+    margin: 0;
+    color: #fff; /* Color blanco para los íconos */
+  }
+  
+  /* Fondo del menú */
+  .mat-menu-panel {
+    background-color: #282fb2 !important; /* Fondo azul oscuro para el menú */
+  }
+  
+  /* Color del texto en el menú */
+  .mat-menu-item {
+    color: #ffffff !important; /* Color blanco para los elementos del menú */
+  }
+  
+  /* Estilo de los íconos dentro del menú */
+  .mat-menu-item .mat-icon {
+    color: #ffffff !important; /* Íconos blancos en el menú */
+  }
+  /* Cambia el selector general a una clase específica */
+  
+  
+  table th {
+    background-color: #000000 !important;
+    color: rgb(255, 255, 255) !important;
+    font-family: "Voltaire", sans-serif;
+    padding: 12px 8px; /* Ajusta el padding según lo necesites */
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+
+  }

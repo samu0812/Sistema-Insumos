@@ -5,7 +5,7 @@ import { Component, Inject, ViewEncapsulation } from '@angular/core';
   selector: 'agregarpc-dialog',
   template: `
   <ng-container class="contenedorDialog">
-  <h1 mat-dialog-title>Agregar PC
+  <h1>Agregar PC
   <img src="../../../assets/agregarPC.png" class="logo">
   </h1>
   <div mat-dialog-content>

@@ -8,9 +8,6 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { HomeComponent } from './components/home/home.component';
-import { UsuariosComponent } from './components/usuarios/usuarios.component';
-import { SidenavComponent } from './components/sidenav/sidenav.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatDividerModule} from '@angular/material/divider';
@@ -19,20 +16,32 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatTableModule} from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { LoginComponent } from './components/login/login.component';
 import {MatDialogModule} from '@angular/material/dialog';
-import { AgregarinsumosComponent } from './components/dialogs/insumos/insumos.component';
-import { InsumosComponent } from './components/insumos/insumos.component';
 import { MatTabsModule } from '@angular/material/tabs';
-import { AgregarPcComponent } from './components/dialogs/agregarpc/agregarpc.component';
 import { MatSelectModule } from '@angular/material/select';
-import { AgregarusuarioComponent } from './components/dialogs/agregarusuario/agregarusuario.component';
 import {MatMenuModule} from '@angular/material/menu';
-import { PrestamosComponent } from './components/prestamos/prestamos.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+//componentes
+import { UsuariosComponent } from './components/usuarios/usuarios.component';
+import { SidenavComponent } from './components/sidenav/sidenav.component';
+import { HomeComponent } from './components/home/home.component';
+import { LoginComponent } from './components/login/login.component';
+import { InsumosComponent } from './components/insumos/insumos.component';
 import { PedidosComponent } from './components/pedidos/pedidos.component';
 import { ReportesComponent } from './components/reportes/reportes.component';
 import { ParametrosComponent } from './components/parametros/parametros.component';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { PrestamosComponent } from './components/prestamos/prestamos.component';
+
+//dialogs
+import { AgregarinsumosComponent } from './components/dialogs/insumos/insumos.component';
+import { AgregarPcComponent } from './components/dialogs/agregarpc/agregarpc.component';
+import { AgregarusuarioComponent } from './components/dialogs/agregarusuario/agregarusuario.component';
+import { PrestamosdialogComponent } from './components/dialogs/prestamosdialog/prestamosdialog.component';
+import { ParametrosdialogComponent } from './components/dialogs/parametrosdialog/parametrosdialog.component';
+import { RealizarprestamodialogComponent } from './components/dialogs/realizarprestamodialog/realizarprestamodialog.component';
+import { GenerarpedidodialogComponent } from './components/dialogs/generarpedidodialog/generarpedidodialog.component';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,9 +56,11 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     PrestamosComponent,
     PedidosComponent,
     ReportesComponent,
-    ParametrosComponent
-  
-    
+    ParametrosComponent,
+    PrestamosdialogComponent,
+    ParametrosdialogComponent,
+    RealizarprestamodialogComponent,
+    GenerarpedidodialogComponent
   ],
   imports: [
     BrowserModule,
@@ -72,7 +83,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatTabsModule,
     MatSelectModule,
     MatMenuModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatDialogModule
 
   ],
   providers: [],

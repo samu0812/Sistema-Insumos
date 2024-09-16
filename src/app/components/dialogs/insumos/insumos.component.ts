@@ -4,7 +4,7 @@ import { Component, Inject } from '@angular/core';
 @Component({
   selector: 'insumos-dialog',
   template: `
-<h1 mat-dialog-title>Agregar Insumo
+<h1>Agregar Insumo
   <img src="../../../assets/insumos.png" class="logo">
 </h1>
 <div class="dialog-content" mat-dialog-content>
