@@ -1,0 +1,29 @@
+.cabezera{
+    display: flex; /* Utiliza flexbox para el contenedor */
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+  }
+  .header {
+    display: inline-flex;
+    justify-content: center; /* Centra el contenido horizontalmente */
+    align-items: center;
+    padding: 10px;
+    color: #fff;
+    margin-bottom: 10px;
+    background: #2bcd71; /* Color de fondo */
+    border-radius: 10px; /* Bordes redondeados */
+    padding: 5px 80px; /* Espacio interno reducido */
+    align-items: center; /* Alinea los elementos hijos verticalmente */
+  }
+  
+  .header h2 {
+    margin: 0;
+    text-align: center; /* Asegura que el texto esté centrado */
+    font-family: "Voltaire", sans-serif;
+    font-weight: initial;
+    font-style: normal;
+  }
+  .logo {
+    height: 40px;
+    margin-left: 10px;
+  }
