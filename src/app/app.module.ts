@@ -21,6 +21,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatSelectModule } from '@angular/material/select';
 import {MatMenuModule} from '@angular/material/menu';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { provideHttpClient } from '@angular/common/http';
+
 //componentes
 import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
@@ -40,6 +42,8 @@ import { PrestamosdialogComponent } from './components/dialogs/prestamosdialog/p
 import { ParametrosdialogComponent } from './components/dialogs/parametrosdialog/parametrosdialog.component';
 import { RealizarprestamodialogComponent } from './components/dialogs/realizarprestamodialog/realizarprestamodialog.component';
 import { GenerarpedidodialogComponent } from './components/dialogs/generarpedidodialog/generarpedidodialog.component';
+import { EditarusuarioComponent } from './components/dialogs/editarusuario/editarusuario.component';
+
 
 
 @NgModule({
@@ -60,7 +64,8 @@ import { GenerarpedidodialogComponent } from './components/dialogs/generarpedido
     PrestamosdialogComponent,
     ParametrosdialogComponent,
     RealizarprestamodialogComponent,
-    GenerarpedidodialogComponent
+    GenerarpedidodialogComponent,
+    EditarusuarioComponent
   ],
   imports: [
     BrowserModule,
@@ -87,7 +92,7 @@ import { GenerarpedidodialogComponent } from './components/dialogs/generarpedido
     MatDialogModule
 
   ],
-  providers: [],
+  providers: [provideHttpClient()],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

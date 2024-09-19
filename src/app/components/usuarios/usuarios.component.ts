@@ -1,85 +1,42 @@
-import { AfterViewInit, Component, ViewChild, ViewEncapsulation  } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatDialog } from '@angular/material/dialog';
-import { AgregarusuarioComponent } from '../dialogs/agregarusuario/agregarusuario.component';
+import { MatDialog } from '@angular/material/dialog'; // Importa MatDialog
+import { AgregarusuarioComponent } from '../dialogs/agregarusuario/agregarusuario.component'; // Importa el componente del diálogo
+import { persona } from '../../models/usuarios/persona';
+import { UsuariosService } from '../../service/usuarios/usuarios.service';
 
-export interface UserData {
-  id: string;
-  nombre: string;
-  apellido: string;
-  dni: string;
-  fechaNacimiento: string;
-  telefono: string;
-  usuario: string;
-  sede: string;
-  rol: string; // Agregada la propiedad rol
-}
-
-/**
- * @title Data table with sorting, pagination, and filtering.
- */
 @Component({
   selector: 'app-usuarios',
   templateUrl: './usuarios.component.html',
   styleUrls: ['./usuarios.component.css'],
-  encapsulation: ViewEncapsulation.None 
+  encapsulation: ViewEncapsulation.None
 })
-export class UsuariosComponent implements AfterViewInit {
-  displayedColumns: string[] = ['id', 'nombre', 'apellido', 'dni', 'fechaNacimiento', 'telefono', 'usuario', 'sede', 'rol','acciones'];
-  dataSource: MatTableDataSource<UserData>;
+export class UsuariosComponent implements OnInit {
+  displayedColumns: string[] = ['id', 'nombre', 'apellido', 'dni', 'fechaDeNacimiento', 'telefono', 'usuario', 'rol', 'sede', 'acciones'];
+  dataSource: MatTableDataSource<persona> | undefined;
 
-  @ViewChild(MatPaginator)
-  paginator!: MatPaginator;
-  @ViewChild(MatSort)
-  sort!: MatSort;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(public dialog: MatDialog) {
-    // Create 100 users with the relevant data fields
-    const users = Array.from({ length: 100 }, (_, k) => createNewUser(k + 1));
+  constructor(public dialog: MatDialog, private usuariosService: UsuariosService) { }
 
-    // Assign the data to the data source for the table to render
-    this.dataSource = new MatTableDataSource(users);
+  ngOnInit(): void {
+    // Código para inicializar la tabla con datos, si es necesario
   }
 
-  openDialog(action: string, user?: UserData): void {
+  // Método para abrir el diálogo de agregar usuario
+  agregarUsuarioDialog(): void {
     const dialogRef = this.dialog.open(AgregarusuarioComponent, {
-      data: { type: action, user: user }
+      width: '400px', // Ancho del diálogo (opcional)
     });
-  
+
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      if (result) {
+        console.log('El usuario fue agregado:', result);
+        // Aquí podrías recargar la tabla o hacer cualquier otra acción necesaria
+      }
     });
   }
-  
-
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  }
-
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
-  }
 }
-
-function createNewUser(id: number): UserData {
-  return {
-    id: id.toString(),
-    nombre: `Nombre ${id}`,
-    apellido: `Apellido ${id}`,
-    dni: Math.floor(10000000 + Math.random() * 90000000).toString(),
-    fechaNacimiento: new Date().toISOString().split('T')[0],
-    telefono: Math.floor(1000000000 + Math.random() * 9000000000).toString(),
-    usuario: `usuario${id}`,
-    sede: ['Formosa', 'Corrientes', 'Misiones'][Math.floor(Math.random() * 3)],
-    rol: ['Admin', 'Usuario', 'Invitado'][Math.floor(Math.random() * 3)] // Agregado el rol
-  };
-}
-

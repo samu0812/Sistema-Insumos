@@ -1,98 +1,93 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-
-export interface UserData {
-  nombre?: string;
-  apellido?: string;
-  dni?: number;
-  fechaNacimiento?: string;
-  usuario?: string;
-  sede?: string;
-  rol?: string;
-}
+import { UsuariosService } from '../../../service/usuarios/usuarios.service';
+import { persona } from '../../../models/usuarios/persona';
+import { AlertasService } from '../../../service/alertas/alertas.service';
 
 @Component({
   selector: 'app-agregarusuario',
   template: `
-    <h1 *ngIf="data.type === 'agregar' || data.type === 'editarDatos'">
-      {{ data.type === 'agregar' ? 'Agregar Usuario' : 'Editar Usuario' }}
-      <img src="../../../../assets/usuarios.png" class="logo">
-    </h1>
-    <h1  *ngIf="data.type === 'editar'">
-      Editar Usuario
+    <h1>Agregar Usuario
       <img src="../../../../assets/usuarios.png" class="logo">
     </h1>
 
     <div class="dialog-content" mat-dialog-content>
-      <!-- Campos para Agregar Usuario y Editar Datos Personales -->
-      <ng-container *ngIf="data.type === 'agregar' || data.type === 'editarDatos'">
+      <ng-container>
         <mat-form-field appearance="fill">
           <mat-label>Nombre</mat-label>
-          <input matInput placeholder="Nombre" [value]="data.user?.nombre || ''">
+          <input matInput [(ngModel)]="persona.nombre" placeholder="Nombre">
         </mat-form-field>
 
         <mat-form-field appearance="fill">
           <mat-label>Apellido</mat-label>
-          <input matInput placeholder="Apellido" [value]="data.user?.apellido || ''">
+          <input matInput [(ngModel)]="persona.apellido" placeholder="Apellido">
         </mat-form-field>
 
         <mat-form-field appearance="fill">
           <mat-label>DNI</mat-label>
-          <input matInput type="number" placeholder="DNI" [value]="data.user?.dni || ''">
+          <input matInput type="number" [(ngModel)]="persona.dni" placeholder="DNI">
         </mat-form-field>
 
         <mat-form-field appearance="fill">
           <mat-label>Fecha de Nacimiento</mat-label>
-          <input matInput type="date" placeholder="Fecha de Nacimiento" [value]="data.user?.fechaNacimiento || ''">
+          <input matInput type="date" [(ngModel)]="persona.fechaDeNacimiento" placeholder="Fecha de Nacimiento">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Teléfono</mat-label>
+          <input matInput [(ngModel)]="persona.telefono" placeholder="Teléfono">
         </mat-form-field>
       </ng-container>
+      </div>
 
-      <!-- Campos para Editar Usuario -->
-      <ng-container *ngIf="data.type === 'editar'">
-        <mat-form-field appearance="fill">
-          <mat-label>Usuario</mat-label>
-          <input matInput placeholder="Usuario" [value]="data.user?.usuario || ''">
-        </mat-form-field>
-
-        <mat-form-field appearance="fill">
-          <mat-label>Contraseña</mat-label>
-          <input matInput type="password" placeholder="Contraseña">
-        </mat-form-field>
-
-        <mat-form-field appearance="fill">
-          <mat-label>Sede</mat-label>
-          <mat-select [value]="data.user?.sede || ''">
-            <mat-option value="Formosa">Formosa</mat-option>
-            <mat-option value="Corrientes">Corrientes</mat-option>
-            <mat-option value="Misiones">Misiones</mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill">
-          <mat-label>Rol</mat-label>
-          <mat-select [value]="data.user?.rol || ''">
-            <mat-option value="Admin">Admin</mat-option>
-            <mat-option value="Usuario">Usuario</mat-option>
-            <mat-option value="Invitado">Invitado</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </ng-container>
-    </div>
-
-    <div mat-dialog-actions align="end" class="grupoBtn">
-      <button mat-button class="cancelarBtn" (click)="onCancelClick()">Cancelar</button>
-      <button mat-button class="aceptarBtn" mat-dialog-close>Aceptar</button>
-    </div>
+      <div mat-dialog-actions align="end" class="grupoBtn">
+        <button mat-button class="cancelarBtn" (click)="onCancelClick()">Cancelar</button>
+        <button mat-button class="aceptarBtn" (click)="agregar()">Aceptar</button>
+      </div>
   `,
   styleUrls: ['./agregarusuario.component.css'],
 })
 export class AgregarusuarioComponent {
+  persona: persona = {
+    id: '',
+    nombre: '',
+    apellido: '',
+    dni: '',
+    fechaDeNacimiento: '',
+    telefono: '',
+  };
+
   constructor(
     public dialogRef: MatDialogRef<AgregarusuarioComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { type: string, user: UserData }
-  ) {}
+    @Inject(MAT_DIALOG_DATA) 
+    public usuariosService: UsuariosService,
+    private alertasService: AlertasService
+  ) { }
 
   onCancelClick(): void {
     this.dialogRef.close();
   }
+
+  agregar(): void {
+    // Validación: verificar que todos los campos estén completos
+    if (!this.persona.nombre || !this.persona.apellido || !this.persona.dni || !this.persona.fechaDeNacimiento || !this.persona.telefono) {
+      // Si falta algún campo, mostrar alerta de advertencia
+      this.alertasService.WarningAlert('Campos incompletos', 'Por favor, complete todos los campos antes de continuar.');
+      return; // Detener el flujo, no enviar solicitud al back-end
+    }
+  
+    // Si todos los campos están completos, hacer la solicitud al back-end
+    this.usuariosService.altaPersona(this.persona).subscribe(
+      (response) => {
+        this.alertasService.OkAlert('Usuario agregado', 'El usuario fue agregado exitosamente');
+        console.log('Persona agregada exitosamente', response);
+        this.dialogRef.close(response); // Cierra el diálogo y devuelve la respuesta
+      },
+      (error) => {
+        this.alertasService.ErrorAlert('Error', 'No se pudo agregar el usuario');
+        console.error('Error al agregar la persona', error);
+      }
+    );
+  }
+  
 }
