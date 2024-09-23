@@ -12,12 +12,27 @@ export class UsuariosService {
   constructor(private http: HttpClient) { }
 
   // Método para dar de alta una persona
-  altaPersona(persona: any): Observable<any> {
+  agregar(persona: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/AltaPersona`, persona);
   }
 
   // Método para modificar una persona
   modificarPersona(persona: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/ModificarPersona`, persona);
+  }
+
+
+  inhabilitar(idPersona: number): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/BajaPersona`, { IdPersona: idPersona });
+  }
+
+
+  habilitar(idPersona: number): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/HabilitarPersona`, { IdPersona: idPersona });
+  }
+
+  // Nuevo método para listar personas con un filtro (SPL_Persona)
+  listar(filtro: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/VerPersona`, { Filtro: filtro });
   }
 }

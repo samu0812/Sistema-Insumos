@@ -1,0 +1,28 @@
+.titulo {
+    margin: 0;
+    text-align: center;
+    font-family: "Voltaire", sans-serif;
+    font-weight: initial;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    color: #fff;
+    background: #2bcd71;
+    border-radius: 10px;
+    padding: 5px 80px;
+    font-size: 36px;
+    margin-bottom: 20px;
+  }
+.texto{
+    font-family: "Voltaire", sans-serif;
+    font-size: 17px;
+  }
+  .aceptarbtn{
+    background-color: rgb(238, 76, 76);
+    color: #fff !important;
+  }
+  .logo {
+    height: 40px;
+    margin-left: 10px;
+  }

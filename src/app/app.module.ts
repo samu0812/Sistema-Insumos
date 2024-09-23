@@ -26,7 +26,6 @@ import { provideHttpClient } from '@angular/common/http';
 //componentes
 import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
-import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { InsumosComponent } from './components/insumos/insumos.component';
 import { PedidosComponent } from './components/pedidos/pedidos.component';
@@ -43,6 +42,8 @@ import { ParametrosdialogComponent } from './components/dialogs/parametrosdialog
 import { RealizarprestamodialogComponent } from './components/dialogs/realizarprestamodialog/realizarprestamodialog.component';
 import { GenerarpedidodialogComponent } from './components/dialogs/generarpedidodialog/generarpedidodialog.component';
 import { EditarusuarioComponent } from './components/dialogs/editarusuario/editarusuario.component';
+import { ConfirmDialogComponent } from './components/dialogs/confirm-dialog/confirm-dialog.component';
+import { LayoutComponent } from './components/layout/layout.component';
 
 
 
@@ -50,7 +51,6 @@ import { EditarusuarioComponent } from './components/dialogs/editarusuario/edita
   declarations: [
     AppComponent,
     LoginComponent,
-    HomeComponent,
     UsuariosComponent,
     SidenavComponent,
     AgregarinsumosComponent,
@@ -65,7 +65,9 @@ import { EditarusuarioComponent } from './components/dialogs/editarusuario/edita
     ParametrosdialogComponent,
     RealizarprestamodialogComponent,
     GenerarpedidodialogComponent,
-    EditarusuarioComponent
+    EditarusuarioComponent,
+    ConfirmDialogComponent,
+    LayoutComponent
   ],
   imports: [
     BrowserModule,

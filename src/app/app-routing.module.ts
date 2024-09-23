@@ -8,15 +8,22 @@ import { PrestamosComponent } from './components/prestamos/prestamos.component';
 import { PedidosComponent } from './components/pedidos/pedidos.component';
 import { ReportesComponent } from './components/reportes/reportes.component';
 import { ParametrosComponent } from './components/parametros/parametros.component';
+import { LayoutComponent } from './components/layout/layout.component';
 const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
-  {path: 'login', component: LoginComponent},
-  { path: 'usuarios', component: UsuariosComponent },
-  { path: 'insumos', component: InsumosComponent },
-  { path: 'prestamos', component: PrestamosComponent },
-  { path: 'pedidos', component: PedidosComponent },
-  { path: 'reportes', component: ReportesComponent },
-  { path: 'parametros', component: ParametrosComponent},
+  { path: 'login', component: LoginComponent }, // Ruta sin sidenav
+  {
+    path: '', // Rutas con sidenav
+    component: LayoutComponent,
+    children: [
+      { path: 'insumos', component: InsumosComponent },
+      { path: 'usuarios', component: UsuariosComponent },
+      { path: 'prestamos', component: PrestamosComponent },
+      { path: 'pedidos', component: PedidosComponent },
+      { path: 'parametros', component: ParametrosComponent },
+      { path: 'reportes', component: ReportesComponent },
+      { path: '', redirectTo: '/insumos', pathMatch: 'full' }, // Redireccionar a insumos por defecto
+    ]
+  }
 ];
 
 @NgModule({

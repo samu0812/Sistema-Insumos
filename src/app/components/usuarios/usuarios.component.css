@@ -9,7 +9,9 @@ table {
   font-size: 14px;
   width: 100%;
 }
-
+td{
+  font-family: "Kanit", sans-serif;
+}
 td, th {
   width: 25%;
 }
@@ -55,8 +57,6 @@ section {
     font-family: "Voltaire", sans-serif;
     margin: 8px 8px 8px 0;
   }
-  
-  
 }
 i{
 color: #fff;
@@ -122,8 +122,6 @@ margin-left: 10px;
 .mat-menu-item .mat-icon {
   color: #ffffff !important; /* Íconos blancos en el menú */
 }
-/* Cambia el selector general a una clase específica */
-
 
 table th {
   background-color: #000000 !important;
@@ -131,4 +129,20 @@ table th {
   font-family: "Voltaire", sans-serif;
   text-align: left; /* Para asegurar que el texto quede alineado a la izquierda */
   padding: 12px 8px; /* Ajusta el padding según lo necesites */
+}
+mat-form-field {
+  width: 150px; /* Ajusta el ancho a lo que necesites */
+  margin-right: 16px; /* Espaciado para que no se solape con otros elementos */
+}
+
+.mat-select-trigger {
+  font-size: 14px; /* Ajusta el tamaño de la fuente */
+  padding: 4px 8px; /* Ajusta el padding para reducir el tamaño general */
+}
+.no-data-row {
+  background-color: #8df7bb; /* Color de fondo verde */
+  color: #000000; /* Color del texto blanco */
+  text-align: center; /* Centra el texto */
+  height: 50px; /* Altura de la fila */
+  font-family: "Voltaire", sans-serif;
 }
