@@ -36,7 +36,7 @@ import { PrestamosComponent } from './components/prestamos/prestamos.component';
 //dialogs
 import { AgregarinsumosComponent } from './components/dialogs/insumos/insumos.component';
 import { AgregarPcComponent } from './components/dialogs/agregarpc/agregarpc.component';
-import { AgregarusuarioComponent } from './components/dialogs/agregarusuario/agregarusuario.component';
+import { AgregarpersonaComponent } from './components/dialogs/agregarpersona/agregarpersona.component';
 import { PrestamosdialogComponent } from './components/dialogs/prestamosdialog/prestamosdialog.component';
 import { ParametrosdialogComponent } from './components/dialogs/parametrosdialog/parametrosdialog.component';
 import { RealizarprestamodialogComponent } from './components/dialogs/realizarprestamodialog/realizarprestamodialog.component';
@@ -44,6 +44,10 @@ import { GenerarpedidodialogComponent } from './components/dialogs/generarpedido
 import { EditarusuarioComponent } from './components/dialogs/editarusuario/editarusuario.component';
 import { ConfirmDialogComponent } from './components/dialogs/confirm-dialog/confirm-dialog.component';
 import { LayoutComponent } from './components/layout/layout.component';
+import { LoadingComponent } from './components/loading/loading.component';
+import { ErrorComponent } from './components/error/error.component';
+import { DenegadoComponent } from './components/denegado/denegado.component';
+import { AgregarusuarioComponent } from './components/dialogs/agregarusuario/agregarusuario.component';
 
 
 
@@ -56,7 +60,7 @@ import { LayoutComponent } from './components/layout/layout.component';
     AgregarinsumosComponent,
     InsumosComponent,
     AgregarPcComponent,
-    AgregarusuarioComponent,
+    AgregarpersonaComponent,
     PrestamosComponent,
     PedidosComponent,
     ReportesComponent,
@@ -67,7 +71,11 @@ import { LayoutComponent } from './components/layout/layout.component';
     GenerarpedidodialogComponent,
     EditarusuarioComponent,
     ConfirmDialogComponent,
-    LayoutComponent
+    LayoutComponent,
+    LoadingComponent,
+    ErrorComponent,
+    DenegadoComponent,
+    AgregarusuarioComponent
   ],
   imports: [
     BrowserModule,

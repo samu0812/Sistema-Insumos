@@ -9,8 +9,14 @@ import { PedidosComponent } from './components/pedidos/pedidos.component';
 import { ReportesComponent } from './components/reportes/reportes.component';
 import { ParametrosComponent } from './components/parametros/parametros.component';
 import { LayoutComponent } from './components/layout/layout.component';
+import { LoadingComponent } from './components/loading/loading.component';
+import { ErrorComponent } from './components/error/error.component';
+import { DenegadoComponent } from './components/denegado/denegado.component';
 const routes: Routes = [
-  { path: 'login', component: LoginComponent }, // Ruta sin sidenav
+  { path: 'login', component: LoginComponent }, 
+  { path: 'loading', component: LoadingComponent },
+  { path: 'denegado', component: DenegadoComponent }, 
+  { path: 'error', component: ErrorComponent }, // Ruta sin sidenav
   {
     path: '', // Rutas con sidenav
     component: LayoutComponent,

@@ -7,5 +7,5 @@ export interface persona {
     Telefono: string;
     FechaAlta: string;
     FechaBaja: string | null;
-  }
+}
   

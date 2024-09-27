@@ -13,81 +13,98 @@ import { AlertasService } from '../../../service/alertas/alertas.service';
     <div class="dialog-content" mat-dialog-content>
       <ng-container>
       <mat-form-field appearance="fill">
-        <mat-label>Nombre</mat-label>
-        <input matInput [(ngModel)]="personaParaAgregar.nombre" placeholder="Nombre">
+        <mat-label>Usuario</mat-label>
+        <input matInput [(ngModel)]="usuarioParaAgregar.Usuario" placeholder="Usuario">
       </mat-form-field>
 
       <mat-form-field appearance="fill">
-        <mat-label>Apellido</mat-label>
-        <input matInput [(ngModel)]="personaParaAgregar.apellido" placeholder="Apellido">
+        <mat-label>Clave</mat-label>
+        <input matInput [(ngModel)]="usuarioParaAgregar.Clave" type="password" placeholder="Clave">
       </mat-form-field>
 
       <mat-form-field appearance="fill">
-        <mat-label>DNI</mat-label>
-        <input matInput type="number" [(ngModel)]="personaParaAgregar.dni" placeholder="DNI">
+        <mat-label>Persona</mat-label>
+        <input matInput [(ngModel)]="usuarioParaAgregar.IdPersona" type="number" placeholder="ID de Persona">
       </mat-form-field>
 
       <mat-form-field appearance="fill">
-        <mat-label>Fecha de Nacimiento</mat-label>
-        <input matInput type="date" [(ngModel)]="personaParaAgregar.fechaDeNacimiento" placeholder="Fecha de Nacimiento">
+        <mat-label>Sede</mat-label>
+        <input matInput [(ngModel)]="usuarioParaAgregar.IdSede" type="number" placeholder="ID de Sede">
       </mat-form-field>
 
       <mat-form-field appearance="fill">
-        <mat-label>Teléfono</mat-label>
-        <input matInput [(ngModel)]="personaParaAgregar.telefono" placeholder="Teléfono">
+        <mat-label>Rol</mat-label>
+        <input matInput [(ngModel)]="usuarioParaAgregar.TipoRol_idTipoRol" type="number" placeholder="ID de Rol">
       </mat-form-field>
-
       </ng-container>
-      </div>
+    </div>
 
-      <div mat-dialog-actions align="end" class="grupoBtn">
-        <button mat-button class="cancelarBtn" (click)="onCancelClick()">Cancelar</button>
-        <button mat-button class="aceptarBtn" (click)="agregar()">Aceptar</button>
-      </div>
+    <div mat-dialog-actions align="end" class="grupoBtn">
+      <button mat-button class="cancelarBtn" (click)="onCancelClick()">Cancelar</button>
+      <button mat-button class="aceptarBtn" (click)="agregar()">Aceptar</button>
+    </div>
   `,
   styleUrls: ['./agregarusuario.component.css'],
 })
 export class AgregarusuarioComponent {
-  
-  personaParaAgregar = {
-    nombre: '',
-    apellido: '',
-    dni: '',
-    fechaDeNacimiento: '',
-    telefono: ''
+
+  usuarioParaAgregar = {
+    Usuario: '',
+    Clave: '',
+    IdPersona: '', // Aquí se asignará el IdPersona
+    IdSede: '',
+    TipoRol_idTipoRol: ''
   };
 
   constructor(
     public dialogRef: MatDialogRef<AgregarusuarioComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    public usuariosService: UsuariosService,
+    @Inject(MAT_DIALOG_DATA) public data: any, // Recibe el idPersona
+    private usuariosService: UsuariosService,
     private alertasService: AlertasService
-  ) { }
+  ) {
+    // Asignar el IdPersona recibido al modelo
+    this.usuarioParaAgregar.IdPersona = this.data.idPersona;
+  }
 
   onCancelClick(): void {
     this.dialogRef.close();
   }
 
   agregar(): void {
-    // Validación: verificar que todos los campos estén completos
-    if (!this.personaParaAgregar.nombre || !this.personaParaAgregar.apellido || !this.personaParaAgregar.dni || !this.personaParaAgregar.fechaDeNacimiento || !this.personaParaAgregar.telefono) {
+    // Verificar si todos los campos necesarios están completos
+    if (!this.usuarioParaAgregar.Usuario || !this.usuarioParaAgregar.Clave || !this.usuarioParaAgregar.IdSede || !this.usuarioParaAgregar.TipoRol_idTipoRol) {
       this.alertasService.WarningAlert('Campos incompletos', 'Por favor, complete todos los campos antes de continuar.');
-      return; // Detener el flujo, no enviar solicitud al back-end
+      return;
     }
 
-    // Si todos los campos están completos, hacer la solicitud al back-end
-    this.usuariosService.agregar(this.personaParaAgregar).subscribe(
-      (response) => {
-        console.log(this.personaParaAgregar)
-        this.alertasService.OkAlert('Usuario agregado', 'El usuario fue agregado exitosamente');
-        console.log('Persona agregada exitosamente', response);
-        this.dialogRef.close(response); // Cierra el diálogo y devuelve la respuesta
+    // Llamar al servicio para agregar el usuario
+    this.usuariosService.agregarUsuario(this.usuarioParaAgregar).subscribe({
+      next: (response) => {
+        const status = response.status;
+        const mensaje = response.body?.message;
+
+        if (status === 200) {
+          this.alertasService.OkAlert('Éxito', mensaje);
+        } else if (status === 400) {
+          this.alertasService.ErrorAlert('Error', mensaje);
+        } else if (status === 500) {
+          this.alertasService.ErrorAlert('Error', mensaje);
+        } else {
+          this.alertasService.WarningAlert('Advertencia', 'Ocurrió un error inesperado');
+        }
+
+        this.dialogRef.close(response.body);
       },
-      (error) => {
-        this.alertasService.ErrorAlert('Error', 'No se pudo agregar el usuario');
-        console.error('Error al agregar la persona', error);
+      error: (error) => {
+        const status = error.status;
+
+        if (status === 500) {
+          this.alertasService.ErrorAlert('Error', 'Error interno del servidor');
+        } else {
+          this.alertasService.ErrorAlert('Error', 'No se pudo agregar el usuario');
+        }
       }
-    );
+    });
   }
 }
 

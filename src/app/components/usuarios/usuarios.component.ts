@@ -3,12 +3,15 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
-import { AgregarusuarioComponent } from '../dialogs/agregarusuario/agregarusuario.component';
+import { AgregarpersonaComponent } from '../dialogs/agregarpersona/agregarpersona.component';
 import { persona } from '../../models/usuarios/persona';
 import { UsuariosService } from '../../service/usuarios/usuarios.service';
 import { EditarusuarioComponent } from '../dialogs/editarusuario/editarusuario.component';
 import { ConfirmDialogComponent } from '../dialogs/confirm-dialog/confirm-dialog.component';
 import { AlertasService } from '../../service/alertas/alertas.service';
+import { AgregarusuarioComponent } from '../dialogs/agregarusuario/agregarusuario.component';
+import { Usuario } from '../../models/usuarios/usuario';
+
 @Component({
   selector: 'app-usuarios',
   templateUrl: './usuarios.component.html',
@@ -17,7 +20,9 @@ import { AlertasService } from '../../service/alertas/alertas.service';
 })
 export class UsuariosComponent implements OnInit {
   displayedColumns: string[] = ['id', 'nombre', 'apellido', 'dni', 'fechaDeNacimiento', 'telefono', 'fechaAlta', 'fechaBaja', 'usuario', 'rol', 'sede', 'acciones'];
-  dataSource: MatTableDataSource<persona> = new MatTableDataSource<persona>([]);
+  
+  // Cambiamos el tipo del dataSource para aceptar tanto persona como usuario
+  dataSource: MatTableDataSource<persona | Usuario> = new MatTableDataSource<persona | Usuario>([]);
   selectedEstado: number = 1; // Valor por defecto
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -25,15 +30,14 @@ export class UsuariosComponent implements OnInit {
 
   constructor(public dialog: MatDialog, private usuariosService: UsuariosService,
     private alertasService: AlertasService
-
   ) { }
 
   ngOnInit(): void {
     this.cargarUsuarios(this.selectedEstado); 
   }
 
-  agregarUsuarioDialog(): void {
-    const dialogRef = this.dialog.open(AgregarusuarioComponent, {
+  agregarPersonaDialog(): void {
+    const dialogRef = this.dialog.open(AgregarpersonaComponent, {
       width: '400px',
     });
 
@@ -45,10 +49,24 @@ export class UsuariosComponent implements OnInit {
     });
   }
 
+  agregarUsuarioDialog(row: persona): void {
+    const dialogRef = this.dialog.open(AgregarusuarioComponent, {
+      width: '400px',
+      data: { idPersona: row.IdPersona } // Pasamos el IdPersona al diálogo
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('El usuario fue agregado:', result);
+        this.cargarUsuarios(this.selectedEstado); // Recargar los usuarios después de agregar uno
+      }
+    });
+  }
+  
 
   cargarUsuarios(estado: number): void {
     this.usuariosService.listar(estado.toString()).subscribe({
-      next: (data: persona[]) => {
+      next: (data: Array<persona | Usuario>) => { // Aceptamos un array que pueda contener ambos modelos
         this.dataSource = new MatTableDataSource(data);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
@@ -69,6 +87,7 @@ export class UsuariosComponent implements OnInit {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
+
   abrirDialogo(type: string, row: any): void {
     const dialogRef = this.dialog.open(EditarusuarioComponent, {
       width: '700px',
@@ -84,6 +103,7 @@ export class UsuariosComponent implements OnInit {
       }
     });
   }
+
   inhabilitarPersona(row: persona): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: {
@@ -107,7 +127,7 @@ export class UsuariosComponent implements OnInit {
       }
     });
   }
-  
+
   habilitarPersona(row: persona): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: {
@@ -131,8 +151,4 @@ export class UsuariosComponent implements OnInit {
       }
     });
   }
-  
-  
-
-  
 }

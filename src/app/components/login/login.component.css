@@ -6,6 +6,7 @@
     background: #282fb2;  
     width: 100%;
     height:100vh;
+    font-family: "Voltaire", sans-serif;
 }
 .circles{
   position: absolute;
@@ -124,6 +125,7 @@
 .login-card {
   width: 400px;            /* Establece el ancho de la tarjeta */
   background-color: rgb(237, 237, 237);
+  font-family: "Voltaire", sans-serif;
 }
 
 .btnDiv {
@@ -164,4 +166,11 @@
 .logo-image {
   height: 40px;
   border-radius: 50%;
+}
+.titulo{
+  font-family: "Voltaire", sans-serif;
+  font-size: 30px;
+}
+.input{
+  font-family: "Voltaire", sans-serif;
 }

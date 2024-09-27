@@ -2,6 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UsuariosService } from '../../../service/usuarios/usuarios.service';
 import { persona } from '../../../models/usuarios/persona';
+import { Usuario } from '../../../models/usuarios/usuario';
 import { AlertasService } from '../../../service/alertas/alertas.service';
 
 @Component({
@@ -31,8 +32,9 @@ import { AlertasService } from '../../../service/alertas/alertas.service';
 
       <mat-form-field appearance="fill">
         <mat-label>Fecha de Nacimiento</mat-label>
-        <input matInput type="date" placeholder="Fecha de Nacimiento" [(ngModel)]="personaEdit.FechaDeNacimiento">
+        <input matInput type="date" [(ngModel)]="personaEdit.FechaDeNacimiento">
       </mat-form-field>
+
 
       <mat-form-field appearance="fill">
         <mat-label>Teléfono</mat-label>
@@ -41,8 +43,27 @@ import { AlertasService } from '../../../service/alertas/alertas.service';
     </ng-container>
 
     <ng-container *ngIf="data.type === 'editarUsuario'">
-      <!-- Aquí agregarás los campos de usuario más adelante -->
-    </ng-container>
+  <mat-form-field appearance="fill">
+    <mat-label>Usuario</mat-label>
+    <input matInput placeholder="Usuario" [(ngModel)]="usuarioEdit.Usuario">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Clave</mat-label>
+    <input matInput placeholder="Clave" [(ngModel)]="usuarioEdit.Clave" type="password">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Sede</mat-label>
+    <input matInput placeholder="ID Sede" [(ngModel)]="usuarioEdit.IdSede" type="number">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Rol</mat-label>
+    <input matInput placeholder="ID Tipo Rol" [(ngModel)]="usuarioEdit.TipoRol_idTipoRol" type="number">
+  </mat-form-field>
+</ng-container>
+
   </div>
 
   <div mat-dialog-actions align="end" class="grupoBtn">
@@ -53,17 +74,27 @@ import { AlertasService } from '../../../service/alertas/alertas.service';
   styleUrls: ['./editarusuario.component.css']
 })
 export class EditarusuarioComponent {
-  personaEdit: persona; // Variable temporal para los cambios
+  personaEdit!: persona; // El operador ! asegura que TypeScript no lanzará el error
+  usuarioEdit!: Usuario;
 
   constructor(
     private alertasService: AlertasService,
     public dialogRef: MatDialogRef<EditarusuarioComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { type: string, user: persona },
-    public usuariosService: UsuariosService,
-
+    @Inject(MAT_DIALOG_DATA) public data: { type: string, user: persona | Usuario },
+    public usuariosService: UsuariosService
   ) {
-    // Crea una copia de los datos originales
-    this.personaEdit = { ...data.user }; // Hacemos una copia para evitar modificar directamente los datos originales
+    if (this.data.type === 'editarPersona') {
+      this.personaEdit = { ...data.user as persona };
+  
+      // Conversión de la fecha
+      if (this.personaEdit.FechaDeNacimiento) {
+        const fechaParts = this.personaEdit.FechaDeNacimiento.split('/');
+        this.personaEdit.FechaDeNacimiento = `${fechaParts[2]}-${fechaParts[1]}-${fechaParts[0]}`; // Cambiar a formato YYYY-MM-DD
+      }
+      
+    } else if (this.data.type === 'editarUsuario') {
+      this.usuarioEdit = { ...data.user as Usuario };  // Asignación de los datos para usuario
+    }
   }
 
   onCancelClick(): void {
@@ -71,25 +102,54 @@ export class EditarusuarioComponent {
   }
 
   onAcceptClick(): void {
-    
     if (this.data.type === 'editarPersona') {
       if (!this.personaEdit.Nombre || !this.personaEdit.Apellido || !this.personaEdit.Dni || !this.personaEdit.FechaDeNacimiento || !this.personaEdit.Telefono) {
         this.alertasService.WarningAlert('Campos incompletos', 'Por favor, complete todos los campos antes de continuar.');
-        return; // Detener el flujo, no enviar solicitud al back-end
+        return;
       }
-      // Llamada para modificar persona usando la copia de datos
+
       this.usuariosService.modificarPersona(this.personaEdit).subscribe({
         next: (result) => {
-          this.alertasService.OkAlert('Usuario Modificado', 'El usuario fue Modificado exitosamente');
-          Object.assign(this.data.user, this.personaEdit); // Copiamos los cambios a los datos originales
-          this.dialogRef.close(result); // Cerrar el diálogo con el resultado
+          const mensaje = result.message;
+          const status = result.status;
+
+          if (status === '200') {
+            this.alertasService.OkAlert('Éxito', mensaje);
+          } else {
+            this.alertasService.ErrorAlert('Error', mensaje);
+          }
+
+          Object.assign(this.data.user, this.personaEdit);
+          this.dialogRef.close(result);
         },
         error: (error) => {
-          this.alertasService.ErrorAlert('Error', 'No se pudo Modificar el usuario');
+          this.alertasService.ErrorAlert('Error', 'No se pudo modificar la persona.');
         }
       });
     } else if (this.data.type === 'editarUsuario') {
-      console.log('Editar Usuario no está implementado aún.');
+      if (!this.usuarioEdit.Usuario || !this.usuarioEdit.Clave || !this.usuarioEdit.IdSede || !this.usuarioEdit.TipoRol_idTipoRol) {
+        this.alertasService.WarningAlert('Campos incompletos', 'Por favor, complete todos los campos antes de continuar.');
+        return;
+      }
+
+      this.usuariosService.modificarUsuario(this.usuarioEdit).subscribe({
+        next: (result) => {
+          const mensaje = result.message;
+          const status = result.status;
+
+          if (status === '200') {
+            this.alertasService.OkAlert('Éxito', mensaje);
+          } else {
+            this.alertasService.ErrorAlert('Error', mensaje);
+          }
+
+          Object.assign(this.data.user, this.usuarioEdit);
+          this.dialogRef.close(result);
+        },
+        error: (error) => {
+          this.alertasService.ErrorAlert('Error', 'No se pudo modificar el usuario.');
+        }
+      });
     }
   }
 }
