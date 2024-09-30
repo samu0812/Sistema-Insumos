@@ -11,6 +11,7 @@ import { ConfirmDialogComponent } from '../dialogs/confirm-dialog/confirm-dialog
 import { AlertasService } from '../../service/alertas/alertas.service';
 import { AgregarusuarioComponent } from '../dialogs/agregarusuario/agregarusuario.component';
 import { Usuario } from '../../models/usuarios/usuario';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-usuarios',
@@ -19,7 +20,8 @@ import { Usuario } from '../../models/usuarios/usuario';
   encapsulation: ViewEncapsulation.None
 })
 export class UsuariosComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'nombre', 'apellido', 'dni', 'fechaDeNacimiento', 'telefono', 'fechaAlta', 'fechaBaja', 'usuario', 'rol', 'sede', 'acciones'];
+  displayedColumns: string[] = ['id', 'nombre', 'apellido', 'dni', 'fechaDeNacimiento', 'telefono', 'fechaAlta', 'fechaBaja', 'usuario', 'rol', 'sede', 'fechaAltaUsuario', 'fechaBajaUsuario', 'acciones'];
+
   
   // Cambiamos el tipo del dataSource para aceptar tanto persona como usuario
   dataSource: MatTableDataSource<persona | Usuario> = new MatTableDataSource<persona | Usuario>([]);
@@ -27,6 +29,7 @@ export class UsuariosComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+
 
   constructor(public dialog: MatDialog, private usuariosService: UsuariosService,
     private alertasService: AlertasService
@@ -65,18 +68,41 @@ export class UsuariosComponent implements OnInit {
   
 
   cargarUsuarios(estado: number): void {
-    this.usuariosService.listar(estado.toString()).subscribe({
-      next: (data: Array<persona | Usuario>) => { // Aceptamos un array que pueda contener ambos modelos
-        this.dataSource = new MatTableDataSource(data);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-        console.log('Datos recibidos:', data);
-      },
-      error: (error) => {
-        console.error('Error al cargar usuarios:', error);
-      }
+    // Ejecuta ambos servicios simultáneamente usando forkJoin
+    forkJoin({
+        personas: this.usuariosService.listar(estado.toString()),
+        usuarios: this.usuariosService.listarUsuario(estado.toString())
+    }).subscribe({
+        next: ({ personas, usuarios }) => {
+            // Combina los datos de personas y usuarios en un solo array
+            const combinedData = personas.map((persona: { IdPersona: any; }) => {
+                // Encuentra el usuario correspondiente a la persona
+                const usuario = usuarios.find((u: { IdPersona: any; }) => u.IdPersona === persona.IdPersona);
+                
+                // Devuelve un nuevo objeto que combine ambas informaciones
+                return {
+                    ...persona,
+                    IdUsuario: usuario ? usuario.IdUsuario : '',
+                    Usuario: usuario ? usuario.Usuario : '', // Asigna el nombre del usuario si existe
+                    IdSede: usuario ? usuario.IdSede : '',
+                    TipoRol_idTipoRol: usuario ? usuario.TipoRol_idTipoRol : '',
+                    FechaBajaUsuario: usuario ? usuario.FechaBaja : '',
+                    FechaAltaUsuario: usuario ? usuario.FechaAlta : '', // Asigna el rol del usuario si existe
+                    // Agrega más campos del usuario según sea necesario
+                };
+            });
+
+            this.dataSource = new MatTableDataSource(combinedData);
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+        },
+        error: (error) => {
+            console.error('Error al cargar usuarios y personas:', error);
+        }
     });
-  }
+}
+
+
 
   onEstadoChange(event: any): void {
     this.selectedEstado = event.value;
@@ -104,6 +130,28 @@ export class UsuariosComponent implements OnInit {
     });
   }
 
+  inhabilitar(row: persona | Usuario): void {
+    // Verifica si la fila es de tipo persona o usuario
+    if ('IdPersona' in row) {
+      // Si es una persona, inhabilitarla
+      this.inhabilitarPersona(row as persona);
+    } else if ('IdUsuario' in row) {
+      // Si es un usuario, inhabilitarlo
+      this.inhabilitarUsuario(row as Usuario);
+    }
+  }
+
+  habilitar(row: persona | Usuario): void {
+    // Verifica si la fila es de tipo persona o usuario
+    if ('IdPersona' in row) {
+      // Si es una persona, inhabilitarla
+      this.habilitarPersona(row as persona);
+    } else if ('IdUsuario' in row) {
+      // Si es un usuario, inhabilitarlo
+      this.habilitarUsuario(row as Usuario);
+    }
+  }
+
   inhabilitarPersona(row: persona): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: {
@@ -125,6 +173,31 @@ export class UsuariosComponent implements OnInit {
           }
         });
       }
+    });
+  }
+
+  inhabilitarUsuario(row: Usuario): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+        data: {
+            title: '¿Inhabilitar Usuario?',
+            message: `¿Estás seguro de que deseas inhabilitar al usuario ${row.Usuario}?`
+        }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+            this.usuariosService.inhabilitarUsuario(row.IdUsuario).subscribe({
+                next: (response) => {
+                    console.log('Usuario inhabilitado:', response);
+                    this.alertasService.OkAlert('Ok', 'El usuario fue inhabilitado');
+                    this.cargarUsuarios(this.selectedEstado);
+                },
+                error: (error) => {
+                    console.error('Error al inhabilitar el usuario:', error);
+                    this.alertasService.ErrorAlert('Error', 'No se pudo inhabilitar al usuario');
+                }
+            });
+        }
     });
   }
 
@@ -151,4 +224,35 @@ export class UsuariosComponent implements OnInit {
       }
     });
   }
+
+
+  habilitarUsuario(row: Usuario): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: '¿Habilitar Usuario?',
+        message: `¿Estás seguro de que deseas habilitar al usuario ${row.Usuario}?`
+      }
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.usuariosService.habilitarUsuario(row.IdUsuario).subscribe({
+          next: (response) => {
+            this.alertasService.OkAlert('Ok', 'El usuario fue reestablecido');
+            this.cargarUsuarios(this.selectedEstado);
+          },
+          error: (error) => {
+            console.error('Error al habilitar la persona:', error);
+            this.alertasService.ErrorAlert('Error', 'No se pudo Habilitar al usuario');
+          }
+        });
+      }
+    });
+  }
+
+
+
+
+
+
 }

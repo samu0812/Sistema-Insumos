@@ -24,30 +24,32 @@
     <mat-card-content>
       <form>
         <mat-form-field appearance="fill">
-          <mat-label>Email</mat-label>
-          <input matInput placeholder="Ingrese su email" type="email" [(ngModel)]="email" name="email" required>
+          <mat-label>Nombre de Usuario</mat-label>
+          <input matInput placeholder="Ingrese su Usuario"   [(ngModel)]="Usuario" name="Usuario" required >
         </mat-form-field>
         <mat-form-field appearance="fill">
           <mat-label>Contraseña</mat-label>
           <input matInput 
-                 [type]="hidePassword ? 'password' : 'text'" 
+                 [type]="hidePassword ? 'password' : 'text'"  
                  placeholder="Ingrese su contraseña" 
-                 [(ngModel)]="password" 
-                 name="password" 
+                 [(ngModel)]="Clave" 
+                 name="Clave" 
                  required>
           <button mat-icon-button matSuffix (click)="togglePasswordVisibility()">
             <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
           </button>
         </mat-form-field>
+        
       </form>
     </mat-card-content>
     <mat-card-actions>
       <div class="btnDiv">
-        <button mat-fab extended class="btnLogin">
+        <button mat-fab extended class="btnLogin" (click)="onLogin()">
           <mat-icon>account_circle</mat-icon>
           Iniciar Sesión
         </button>
       </div>
     </mat-card-actions>
+    
   </mat-card>
 </div>

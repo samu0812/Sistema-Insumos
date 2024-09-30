@@ -115,7 +115,14 @@ export class EditarusuarioComponent {
 
           if (status === '200') {
             this.alertasService.OkAlert('Éxito', mensaje);
-          } else {
+          }
+          if (status === '400') {
+            this.alertasService.ErrorAlert('Éxito', mensaje);
+          }
+          if (status === '400') {
+            this.alertasService.ErrorAlert('Éxito', mensaje);
+          }
+          else {
             this.alertasService.ErrorAlert('Error', mensaje);
           }
 
@@ -133,23 +140,33 @@ export class EditarusuarioComponent {
       }
 
       this.usuariosService.modificarUsuario(this.usuarioEdit).subscribe({
-        next: (result) => {
-          const mensaje = result.message;
-          const status = result.status;
-
-          if (status === '200') {
+        next: (response) => {
+          const status = response.status; // Status HTTP
+          const mensaje = response.body?.message; // El cuerpo de la respuesta puede contener el mensaje
+    
+          if (status === 200) {
             this.alertasService.OkAlert('Éxito', mensaje);
-          } else {
+          } else if (status === 400) {
             this.alertasService.ErrorAlert('Error', mensaje);
+          } else if (status === 500) {
+            this.alertasService.ErrorAlert('Error', mensaje);
+          } 
+          else {
+            this.alertasService.WarningAlert('Advertencia', 'Ocurrió un error inesperado');
           }
-
-          Object.assign(this.data.user, this.usuarioEdit);
-          this.dialogRef.close(result);
+    
+          this.dialogRef.close(response.body); // Cerrar el diálogo con el cuerpo de la respuesta
         },
         error: (error) => {
-          this.alertasService.ErrorAlert('Error', 'No se pudo modificar el usuario.');
+          const status = error.status; // Si hay error, también puedes obtener el status aquí
+    
+          if (status === 500) {
+            this.alertasService.ErrorAlert('Error', 'Error interno del servidor');
+          } else {
+            this.alertasService.ErrorAlert('Error', 'No se pudo agregar el usuario');
+          }
         }
       });
     }
-  }
+}
 }

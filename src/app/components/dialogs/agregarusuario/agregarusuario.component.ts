@@ -12,6 +12,12 @@ import { AlertasService } from '../../../service/alertas/alertas.service';
 
     <div class="dialog-content" mat-dialog-content>
       <ng-container>
+        
+      <mat-form-field appearance="fill">
+        <mat-label>Id Usuario</mat-label>
+        <input matInput disabled [(ngModel)]="usuarioParaAgregar.IdUsuario" placeholder="Id Usuario">
+      </mat-form-field>
+
       <mat-form-field appearance="fill">
         <mat-label>Usuario</mat-label>
         <input matInput [(ngModel)]="usuarioParaAgregar.Usuario" placeholder="Usuario">
@@ -49,6 +55,7 @@ import { AlertasService } from '../../../service/alertas/alertas.service';
 export class AgregarusuarioComponent {
 
   usuarioParaAgregar = {
+    IdUsuario:'',
     Usuario: '',
     Clave: '',
     IdPersona: '', // Aquí se asignará el IdPersona
