@@ -38,12 +38,25 @@ export class UsuariosService {
   }
 
     // Método para dar de alta un usuario (SPA_Usuario)
-    agregarUsuario(usuario: any): Observable<any> {
-      return this.http.post<any>(`${this.apiUrl}/AltaUsuario`, usuario, { observe: 'response' });
-    }
+  agregarUsuario(usuario: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/AltaUsuario`, usuario, { observe: 'response' });
+  }
   
-    // Método para modificar un usuario (SPM_Usuario)
-    modificarUsuario(usuario: any): Observable<any> {
-      return this.http.post<any>(`${this.apiUrl}/ModificarUsuario`, usuario, { observe: 'response' });
-    }
+  // Método para modificar un usuario (SPM_Usuario)
+  modificarUsuario(usuario: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/ModificarUsuario`, usuario, { observe: 'response' });
+  }
+
+  listarUsuario(filtro: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/VerUsuario`, { Filtro: filtro });
+  }
+
+  inhabilitarUsuario(idUsuario: number): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/BajaUsuario`, { IdUsuario: idUsuario });
+  }
+
+
+  habilitarUsuario(idUsuario: number): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/HabilitarUsuario`, { IdUsuario: idUsuario });
+  }
 }

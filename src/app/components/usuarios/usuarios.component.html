@@ -1,3 +1,4 @@
+
 <div class="container">
   <div class="cabezera">
     <div class="header">
@@ -76,29 +77,45 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Alta </th>
         <td mat-cell *matCellDef="let row" > {{row.FechaAlta}} </td>
       </ng-container>
+
       <ng-container matColumnDef="fechaBaja" >
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Baja </th>
         <td mat-cell *matCellDef="let row"> {{row.FechaBaja}} </td>
       </ng-container>
 
       <!-- Usuario Column -->
+      <ng-container matColumnDef="IdUsuario">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Id Usuario </th>
+        <td mat-cell *matCellDef="let row"> {{row.IdUsuario}} </td>
+      </ng-container>
+
       <ng-container matColumnDef="usuario">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre de Usuario </th>
-        <td mat-cell *matCellDef="let row">  </td>
+        <td mat-cell *matCellDef="let row"> {{row.Usuario}} </td>
       </ng-container>
 
       <!-- Rol Column -->
     <ng-container matColumnDef="rol">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Rol </th>
-      <td mat-cell *matCellDef="let row"> </td>
+      <td mat-cell *matCellDef="let row">{{row.TipoRol_idTipoRol}} </td>
     </ng-container>
 
-
       <!-- Sede Column -->
-      <ng-container matColumnDef="sede">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Sede </th>
-        <td mat-cell *matCellDef="let row">  </td>
-      </ng-container>
+    <ng-container matColumnDef="sede">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Sede </th>
+      <td mat-cell *matCellDef="let row">{{row.IdSede}}  </td>
+    </ng-container>
+
+    <ng-container matColumnDef="FechaAltaU">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Alta Usuario </th>
+      <td mat-cell *matCellDef="let row">{{row.FechaAltaU}}  </td>
+    </ng-container>
+
+    
+    <ng-container matColumnDef="FechaBajaU">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Baja Usuario </th>
+      <td mat-cell *matCellDef="let row">{{row.FechaBajaU}}  </td>
+    </ng-container>
 
       <!-- Actions Column with mat-menu -->
       <ng-container matColumnDef="acciones">
@@ -108,19 +125,19 @@
             <mat-icon>settings</mat-icon>
           </button>
           <mat-menu #menu="matMenu" class="opcionesMenu">
-            <button mat-menu-item (click)="agregarUsuarioDialog(row)">
+            <button mat-menu-item *ngIf="!row.FechaAltaU && row.FechaBaja === null" (click)="agregarUsuarioDialog(row)">
               <mat-icon>how_to_reg</mat-icon>
               <span>Asignar Usuario</span>
             </button>
-            <button mat-menu-item (click)="abrirDialogo('editarPersona', row)">
+            <button mat-menu-item *ngIf="row.FechaBaja === null" (click)="abrirDialogo('editarPersona', row)">
               <mat-icon>assignment_ind</mat-icon>
               <span>Editar Persona</span>
             </button>
-            <button mat-menu-item (click)="abrirDialogo('editarUsuario', row)">
+            <button mat-menu-item *ngIf="row.FechaAltaU && row.FechaBaja === null" (click)="abrirDialogo('editarUsuario', row)">
               <mat-icon>assignment_ind</mat-icon>
               <span>Editar Usuario</span>
             </button>
-            <button mat-menu-item *ngIf="!row.FechaBaja" (click)="inhabilitarPersona(row)">
+            <button mat-menu-item *ngIf="!row.FechaBaja" (click)="inhabilitar(row)">
               <mat-icon>block</mat-icon>
               <span>Inhabilitar</span>
             </button>            
@@ -131,6 +148,7 @@
           </mat-menu>          
         </td>
       </ng-container>
+      
       
 
       <!-- Header Row -->

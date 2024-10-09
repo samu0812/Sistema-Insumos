@@ -43,6 +43,11 @@ import { AlertasService } from '../../../service/alertas/alertas.service';
     </ng-container>
 
     <ng-container *ngIf="data.type === 'editarUsuario'">
+    <mat-form-field appearance="fill">
+      <mat-label>Id Usuario</mat-label>
+      <input matInput placeholder="IdUsuario" disabled [(ngModel)]="usuarioEdit.IdUsuario">
+    </mat-form-field>
+
   <mat-form-field appearance="fill">
     <mat-label>Usuario</mat-label>
     <input matInput placeholder="Usuario" [(ngModel)]="usuarioEdit.Usuario">
@@ -127,27 +132,36 @@ export class EditarusuarioComponent {
         }
       });
     } else if (this.data.type === 'editarUsuario') {
-      if (!this.usuarioEdit.Usuario || !this.usuarioEdit.Clave || !this.usuarioEdit.IdSede || !this.usuarioEdit.TipoRol_idTipoRol) {
+      if (!this.usuarioEdit.IdUsuario || !this.usuarioEdit.Usuario || !this.usuarioEdit.Clave || !this.usuarioEdit.IdSede || !this.usuarioEdit.TipoRol_idTipoRol) {
         this.alertasService.WarningAlert('Campos incompletos', 'Por favor, complete todos los campos antes de continuar.');
         return;
       }
 
       this.usuariosService.modificarUsuario(this.usuarioEdit).subscribe({
-        next: (result) => {
-          const mensaje = result.message;
-          const status = result.status;
-
-          if (status === '200') {
+        next: (response) => {
+          const status = response.status;
+          const mensaje = response.body?.message;
+  
+          if (status === 200) {
             this.alertasService.OkAlert('Éxito', mensaje);
-          } else {
+          } else if (status === 400) {
             this.alertasService.ErrorAlert('Error', mensaje);
+          } else if (status === 500) {
+            this.alertasService.ErrorAlert('Error', mensaje);
+          } else {
+            this.alertasService.WarningAlert('Advertencia', 'Ocurrió un error inesperado');
           }
-
-          Object.assign(this.data.user, this.usuarioEdit);
-          this.dialogRef.close(result);
+  
+          this.dialogRef.close(response.body);
         },
         error: (error) => {
-          this.alertasService.ErrorAlert('Error', 'No se pudo modificar el usuario.');
+          const status = error.status;
+  
+          if (status === 500) {
+            this.alertasService.ErrorAlert('Error', 'Error interno del servidor');
+          } else {
+            this.alertasService.OkAlert('Ok', 'UsuarioAgregado');
+          }
         }
       });
     }

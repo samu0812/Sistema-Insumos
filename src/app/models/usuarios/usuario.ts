@@ -5,5 +5,7 @@ export interface Usuario {
     IdPersona: number,
     IdSede: number,
     TipoRol_idTipoRol: number,
+    FechaAlta: string;
+    FechaBaja: string | null;
 }
   
