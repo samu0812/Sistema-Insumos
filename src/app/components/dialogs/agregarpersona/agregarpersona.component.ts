@@ -37,6 +37,11 @@ import { AlertasService } from '../../../service/alertas/alertas.service';
         <input matInput [(ngModel)]="personaParaAgregar.Telefono" placeholder="Teléfono">
       </mat-form-field>
 
+      <mat-form-field appearance="fill">
+        <mat-label>Email</mat-label>
+        <input matInput [(ngModel)]="personaParaAgregar.Email" placeholder="Teléfono">
+      </mat-form-field>
+
       </ng-container>
       </div>
 
@@ -54,7 +59,8 @@ export class AgregarpersonaComponent {
     Apellido: '',
     Dni: '',
     FechaDeNacimiento: '',
-    Telefono: ''
+    Telefono: '',
+    Email: ''
   };
 
   constructor(
@@ -69,37 +75,26 @@ export class AgregarpersonaComponent {
   }
 
   agregar(): void {
-    if (!this.personaParaAgregar.Nombre || !this.personaParaAgregar.Apellido || !this.personaParaAgregar.Dni || !this.personaParaAgregar.FechaDeNacimiento || !this.personaParaAgregar.Telefono) {
+    if (!this.personaParaAgregar.Nombre || !this.personaParaAgregar.Apellido || !this.personaParaAgregar.Dni || 
+      !this.personaParaAgregar.FechaDeNacimiento || !this.personaParaAgregar.Telefono || !this.personaParaAgregar.Email) {
       this.alertasService.WarningAlert('Campos incompletos', 'Por favor, complete todos los campos antes de continuar.');
       return;
     }
   
     this.usuariosService.agregar(this.personaParaAgregar).subscribe({
-      next: (response) => {
-        const status = response.status; // Status HTTP
-        const mensaje = response.body?.message; // El cuerpo de la respuesta puede contener el mensaje
-  
-        if (status === 200) {
-          this.alertasService.OkAlert('Éxito', mensaje);
-        } else if (status === 400) {
-          this.alertasService.ErrorAlert('Error', mensaje);
-        } else if (status === 500) {
-          this.alertasService.ErrorAlert('Error', mensaje);
-        } 
-        else {
-          this.alertasService.WarningAlert('Advertencia', 'Ocurrió un error inesperado');
-        }
-  
-        this.dialogRef.close(response.body); // Cerrar el diálogo con el cuerpo de la respuesta
+      next: (result) => {
+        const mensaje = result.message;
+        const status = result.status;
+
+        // Llamamos al servicio para mostrar la alerta según el status
+        this.alertasService.mostrarAlerta(status, 'Resultado', mensaje);
+
+        this.dialogRef.close(result);
       },
       error: (error) => {
-        const status = error.status; // Si hay error, también puedes obtener el status aquí
-  
-        if (status === 500) {
-          this.alertasService.ErrorAlert('Error', 'Error interno del servidor');
-        } else {
-          this.alertasService.ErrorAlert('Error', 'No se pudo agregar el usuario');
-        }
+        const status = error.status;
+        const mensaje = error.body?.message || 'No se pudo agregar el usuario';
+        this.alertasService.mostrarAlerta(status, 'Error', mensaje);
       }
     });
   }

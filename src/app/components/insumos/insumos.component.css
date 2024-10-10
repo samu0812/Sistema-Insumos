@@ -60,6 +60,19 @@ table {
     margin-bottom: 20px;
     display: flex;
     font-family: "Kanit", sans-serif;
+    .btnPc, .btnPedido {
+      color: #ffffff;
+      background-color: #282fb2;
+      font-family: "Voltaire", sans-serif;
+      margin: 8px 8px 8px 0;
+    }
+    .btnAgregar, .btnPrestamo, .btnPdf{
+      color: #ffffff;
+      background-color: #2bcd71;
+      font-family: "Voltaire", sans-serif;
+      margin: 8px 8px 8px 0;
+
+    }
   }
 i{
   color: #fff;
@@ -69,15 +82,11 @@ button {
   color: #ffffff;
   background-color: #868484;
   font-family: "Voltaire", sans-serif;
-
   padding: 8px 16px; /* Espacio interno para el texto y los íconos */
   white-space: nowrap; /* Evita que el texto se corte en varias líneas */
 }
 
-.btnPedido, .btnPc{
-  background-color: #282fb2;
-  
-}
+
 .cabezera{
   display: flex; /* Utiliza flexbox para el contenedor */
   justify-content: center; /* Centra horizontalmente */
@@ -120,4 +129,27 @@ button {
 .mat-icon {
   margin: 0; /* Elimina cualquier margen innecesario */
   color: #fff;
+}
+table th {
+  background-color: #000000 !important;
+  color: rgb(255, 255, 255) !important;
+  font-family: "Voltaire", sans-serif;
+  text-align: left; /* Para asegurar que el texto quede alineado a la izquierda */
+  padding: 12px 8px; /* Ajusta el padding según lo necesites */
+}
+mat-form-field {
+  width: 150px; /* Ajusta el ancho a lo que necesites */
+  margin-right: 16px; /* Espaciado para que no se solape con otros elementos */
+}
+
+.mat-select-trigger {
+  font-size: 14px; /* Ajusta el tamaño de la fuente */
+  padding: 4px 8px; /* Ajusta el padding para reducir el tamaño general */
+}
+.no-data-row {
+  background-color: #8df7bb; /* Color de fondo verde */
+  color: #000000; /* Color del texto blanco */
+  text-align: center; /* Centra el texto */
+  height: 50px; /* Altura de la fila */
+  font-family: "Voltaire", sans-serif;
 }

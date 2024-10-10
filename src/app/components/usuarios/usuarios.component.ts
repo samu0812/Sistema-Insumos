@@ -20,7 +20,7 @@ import { forkJoin } from 'rxjs';
   encapsulation: ViewEncapsulation.None
 })
 export class UsuariosComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'nombre', 'apellido', 'dni', 'fechaDeNacimiento', 'telefono', 'fechaAlta', 'fechaBaja', 'usuario', 'rol', 'sede', 'fechaAltaUsuario', 'fechaBajaUsuario', 'acciones'];
+  displayedColumns: string[] = ['id', 'nombre', 'apellido', 'dni', 'fechaDeNacimiento', 'telefono', 'email', 'fechaAlta', 'fechaBaja', 'usuario', 'rol', 'sede', 'fechaAltaUsuario', 'fechaBajaUsuario', 'acciones'];
 
   
   // Cambiamos el tipo del dataSource para aceptar tanto persona como usuario
@@ -162,14 +162,19 @@ export class UsuariosComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.usuariosService.inhabilitar(row.IdPersona).subscribe({
-          next: (response) => {
-            console.log('Persona inhabilitada:', response);
-            this.alertasService.OkAlert('Ok', 'El usuario fue Eliminado');
+          next: (result) => {
+            const mensaje = result.message;
+            const status = result.status;
+    
+            // Llamamos al servicio para mostrar la alerta según el status
+            this.alertasService.mostrarAlerta(status, 'Resultado', mensaje);
             this.cargarUsuarios(this.selectedEstado);
           },
           error: (error) => {
-            console.error('Error al inhabilitar la persona:', error);
-            this.alertasService.ErrorAlert('Error', 'No se pudo Eliminar al usuario');
+            const status = error.status;
+            const mensaje = error.body?.message || 'No se pudo agregar el usuario';
+            this.alertasService.mostrarAlerta(status, 'Error', mensaje);
+            this.cargarUsuarios(this.selectedEstado);
           }
         });
       }
@@ -187,15 +192,20 @@ export class UsuariosComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
         if (result) {
             this.usuariosService.inhabilitarUsuario(row.IdUsuario).subscribe({
-                next: (response) => {
-                    console.log('Usuario inhabilitado:', response);
-                    this.alertasService.OkAlert('Ok', 'El usuario fue inhabilitado');
-                    this.cargarUsuarios(this.selectedEstado);
-                },
-                error: (error) => {
-                    console.error('Error al inhabilitar el usuario:', error);
-                    this.alertasService.ErrorAlert('Error', 'No se pudo inhabilitar al usuario');
-                }
+              next: (result) => {
+                const mensaje = result.message;
+                const status = result.status;
+        
+                // Llamamos al servicio para mostrar la alerta según el status
+                this.alertasService.mostrarAlerta(status, 'Resultado', mensaje);
+                this.cargarUsuarios(this.selectedEstado);
+              },
+              error: (error) => {
+                const status = error.status;
+                const mensaje = error.body?.message || 'No se pudo agregar el usuario';
+                this.alertasService.mostrarAlerta(status, 'Error', mensaje);
+                this.cargarUsuarios(this.selectedEstado);
+              }
             });
         }
     });
@@ -212,13 +222,20 @@ export class UsuariosComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.usuariosService.habilitar(row.IdPersona).subscribe({
-          next: (response) => {
-            this.alertasService.OkAlert('Ok', 'El usuario fue reestablecido');
+          next: (result) => {
+            const mensaje = result.message;
+            const status = result.status;
+    
+            // Llamamos al servicio para mostrar la alerta según el status
+            console.log(status);
+            this.alertasService.mostrarAlerta(status, 'Resultado', mensaje);
             this.cargarUsuarios(this.selectedEstado);
           },
           error: (error) => {
-            console.error('Error al habilitar la persona:', error);
-            this.alertasService.ErrorAlert('Error', 'No se pudo Habilitar al usuario');
+            const status = error.status;
+            const mensaje = error.body?.message || 'No se pudo agregar el usuario';
+            this.alertasService.mostrarAlerta(status, 'Error', mensaje);
+            this.cargarUsuarios(this.selectedEstado);
           }
         });
       }
@@ -237,13 +254,17 @@ export class UsuariosComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.usuariosService.habilitarUsuario(row.IdUsuario).subscribe({
-          next: (response) => {
-            this.alertasService.OkAlert('Ok', 'El usuario fue reestablecido');
+          next: (result) => {
+            const mensaje = result.message;
+            const status = result.status;
+            this.alertasService.mostrarAlerta(status, 'Resultado', mensaje);
             this.cargarUsuarios(this.selectedEstado);
           },
           error: (error) => {
-            console.error('Error al habilitar la persona:', error);
-            this.alertasService.ErrorAlert('Error', 'No se pudo Habilitar al usuario');
+            const status = error.status;
+            const mensaje = error.body?.message || 'No se pudo agregar el usuario';
+            this.alertasService.mostrarAlerta(status, 'Error', mensaje);
+            this.cargarUsuarios(this.selectedEstado);
           }
         });
       }

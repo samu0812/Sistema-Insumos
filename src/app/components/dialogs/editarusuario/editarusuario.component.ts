@@ -40,6 +40,11 @@ import { AlertasService } from '../../../service/alertas/alertas.service';
         <mat-label>Teléfono</mat-label>
         <input matInput placeholder="Teléfono" [(ngModel)]="personaEdit.Telefono">
       </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Correo Electronico</mat-label>
+        <input matInput placeholder="Correo" [(ngModel)]="personaEdit.Email">
+      </mat-form-field>
     </ng-container>
 
     <ng-container *ngIf="data.type === 'editarUsuario'">
@@ -49,9 +54,14 @@ import { AlertasService } from '../../../service/alertas/alertas.service';
   </mat-form-field>
 
   <mat-form-field appearance="fill">
-    <mat-label>Clave</mat-label>
-    <input matInput placeholder="Clave" [(ngModel)]="usuarioEdit.Clave" type="password">
+    <mat-label>Clave Actual</mat-label>
+    <input matInput placeholder="Clave" [(ngModel)]="usuarioEdit.ClaveActual" type="password">
   </mat-form-field>
+
+  <mat-form-field appearance="fill">
+        <mat-label>Clave Nueva</mat-label>
+        <input matInput [(ngModel)]="usuarioEdit.NuevaClave" type="password" >
+      </mat-form-field>
 
   <mat-form-field appearance="fill">
     <mat-label>Sede</mat-label>
@@ -112,59 +122,41 @@ export class EditarusuarioComponent {
         next: (result) => {
           const mensaje = result.message;
           const status = result.status;
-
-          if (status === '200') {
-            this.alertasService.OkAlert('Éxito', mensaje);
-          }
-          if (status === '400') {
-            this.alertasService.ErrorAlert('Éxito', mensaje);
-          }
-          if (status === '400') {
-            this.alertasService.ErrorAlert('Éxito', mensaje);
-          }
-          else {
-            this.alertasService.ErrorAlert('Error', mensaje);
-          }
-
+  
+          // Llamamos al servicio para mostrar la alerta según el status
+          this.alertasService.mostrarAlerta(status, 'Resultado', mensaje);
+  
           Object.assign(this.data.user, this.personaEdit);
           this.dialogRef.close(result);
         },
         error: (error) => {
-          this.alertasService.ErrorAlert('Error', 'No se pudo modificar la persona.');
+          const status = error.status;
+          const mensaje = error.body?.message || 'No se pudo agregar el usuario';
+          this.alertasService.mostrarAlerta(status, 'Error', mensaje);
         }
       });
     } else if (this.data.type === 'editarUsuario') {
-      if (!this.usuarioEdit.Usuario || !this.usuarioEdit.Clave || !this.usuarioEdit.IdSede || !this.usuarioEdit.TipoRol_idTipoRol) {
+      if (!this.usuarioEdit.Usuario || !this.usuarioEdit.ClaveActual || !this.usuarioEdit.NuevaClave || !this.usuarioEdit.IdSede || !this.usuarioEdit.TipoRol_idTipoRol) {
         this.alertasService.WarningAlert('Campos incompletos', 'Por favor, complete todos los campos antes de continuar.');
+        console.log(this.usuarioEdit);
         return;
       }
 
       this.usuariosService.modificarUsuario(this.usuarioEdit).subscribe({
-        next: (response) => {
-          const status = response.status; // Status HTTP
-          const mensaje = response.body?.message; // El cuerpo de la respuesta puede contener el mensaje
-    
-          if (status === 200) {
-            this.alertasService.OkAlert('Éxito', mensaje);
-          } else if (status === 400) {
-            this.alertasService.ErrorAlert('Error', mensaje);
-          } else if (status === 500) {
-            this.alertasService.ErrorAlert('Error', mensaje);
-          } 
-          else {
-            this.alertasService.WarningAlert('Advertencia', 'Ocurrió un error inesperado');
-          }
-    
-          this.dialogRef.close(response.body); // Cerrar el diálogo con el cuerpo de la respuesta
+        next: (result) => {
+          const mensaje = result.message;
+          const status = result.status;
+  
+          // Llamamos al servicio para mostrar la alerta según el status
+          this.alertasService.mostrarAlerta(status, 'Resultado', mensaje);
+  
+          Object.assign(this.data.user, this.usuarioEdit);
+          this.dialogRef.close(result);
         },
         error: (error) => {
-          const status = error.status; // Si hay error, también puedes obtener el status aquí
-    
-          if (status === 500) {
-            this.alertasService.ErrorAlert('Error', 'Error interno del servidor');
-          } else {
-            this.alertasService.ErrorAlert('Error', 'No se pudo agregar el usuario');
-          }
+          const status = error.status;
+          const mensaje = error.body?.message || 'No se pudo agregar el usuario';
+          this.alertasService.mostrarAlerta(status, 'Error', mensaje);
         }
       });
     }

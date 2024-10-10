@@ -1,4 +1,6 @@
 export interface Usuario {
+ClaveActual: any;
+  NuevaClave: any;
     IdUsuario: number,
     Usuario: string,
     Clave: string,

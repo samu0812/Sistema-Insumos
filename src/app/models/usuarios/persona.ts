@@ -1,4 +1,5 @@
 export interface persona {
+Email: any;
     IdPersona: number;
     Nombre: string;
     Apellido: string;

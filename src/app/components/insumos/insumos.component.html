@@ -8,31 +8,31 @@
   <div class="grupoBtn">
     <div class=" button-row">
       <div class=" flex-container">
-        <div class=" button-container">
-          <button mat-fab extended (click)="openDialog('insumo')">
+        <div class="button-container">
+          <button mat-fab extended (click)="openDialog('insumo')" class="btnAgregar">
             <i class="fa-solid fa-square-plus"></i>
             Agregar Insumos
           </button>
         </div>
-        <div class=" button-container">
+        <div class="button-container">
           <button mat-fab extended class="btnPc" (click)="openDialogAgregarPc()">
             <i class="fa-solid fa-laptop-medical fa-lg"></i>
             Agregar Pc
           </button>
         </div>
-        <div class=" button-container">
-          <button mat-fab extended class="btnPrestamo" (click)="openDialogPrestamo()" [disabled]="selection.selected.length === 0">
+        <div class="button-container">
+          <button mat-fab extended class="btnPrestamo" (click)="openDialogPrestamo()" [disabled]="selection.selected.length === 0" >
             <i class="fa-solid fa-handshake fa-lg"></i>
             Realizar Préstamo
           </button>                         
         </div>
-        <div class=" button-container">
+        <div class="button-container">
           <button mat-fab extended class="btnPedido" (click)="openDialogPedido()" [disabled]="selection.selected.length === 0">
             <i class="fa-solid fa-file-circle-plus fa-lg"></i>
             Generar Pedido
           </button>
         </div>
-        <div class=" button-container">
+        <div class="button-container">
           <button mat-fab extended class="btnPdf">
             <i class="fa-solid fa-file-pdf fa-lg"></i>
             PDF
@@ -41,6 +41,14 @@
       </div>
     </div>
   </div>
+  <mat-form-field appearance="outline">
+    <mat-label>Filtrar Por:</mat-label>
+    <mat-select (selectionChange)="onEstadoChange($event)">
+      <mat-option value="1">Habilitados</mat-option>
+      <mat-option value="2">Inhabilitados</mat-option>
+    </mat-select>
+  </mat-form-field>
+  
   <mat-form-field>
     <mat-label><mat-icon>search</mat-icon> Buscar</mat-label>
     <input matInput (keyup)="applyFilter($event)" placeholder="Por ejem. Computadora" #input>
@@ -49,72 +57,100 @@
   <div class="mat-elevation-z8 table-container">
     <table mat-table [dataSource]="dataSource" matSort>
 
+      <!-- Selección -->
       <ng-container matColumnDef="select">
         <th mat-header-cell *matHeaderCellDef>
-          <mat-checkbox (change)="$event ? selectAllRows() : null" [checked]="isAllSelected()" [indeterminate]="isIndeterminate()"> 
+          <mat-checkbox (change)="$event ? selectAllRows() : null" [checked]="isAllSelected()" [indeterminate]="isIndeterminate()">
           </mat-checkbox>
         </th>
         <td mat-cell *matCellDef="let row">
-          <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? toggleRow(row) : null" [checked]="selection.isSelected(row)">
+          <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? toggleRow(row) : null"
+            [checked]="selection.isSelected(row)">
           </mat-checkbox>
         </td>
       </ng-container>
-
-      <!-- Nombre del Insumo Column -->
-      <ng-container matColumnDef="nombre">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre del Insumo </th>
-        <td mat-cell *matCellDef="let row"> {{row.nombre}} </td>
+    
+      <!-- IdInsumos -->
+      <ng-container matColumnDef="IdInsumos">
+        <th mat-header-cell *matHeaderCellDef> ID </th>
+        <td mat-cell *matCellDef="let element"> {{element.IdInsumos}} </td>
       </ng-container>
-
-      <!-- Código Column -->
-      <ng-container matColumnDef="codigo">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Código </th>
-        <td mat-cell *matCellDef="let row"> {{row.codigo}} </td>
+    
+      <!-- NombreInsumo -->
+      <ng-container matColumnDef="NombreInsumo">
+        <th mat-header-cell *matHeaderCellDef> Nombre </th>
+        <td mat-cell *matCellDef="let element"> {{element.NombreInsumo}} </td>
       </ng-container>
-
-      <!-- Descripción Column -->
-      <ng-container matColumnDef="descripcion">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Descripción </th>
-        <td mat-cell *matCellDef="let row"> {{row.descripcion}} </td>
+    
+      <!-- Descripcion -->
+      <ng-container matColumnDef="Descripcion">
+        <th mat-header-cell *matHeaderCellDef> Descripción </th>
+        <td mat-cell *matCellDef="let element"> {{element.Descripcion}} </td>
       </ng-container>
-
-      <!-- Marca Column -->
-      <ng-container matColumnDef="marca">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Marca </th>
-        <td mat-cell *matCellDef="let row"> {{row.marca}} </td>
+    
+      <!-- FechaAlta -->
+      <ng-container matColumnDef="FechaAlta">
+        <th mat-header-cell *matHeaderCellDef> Fecha Alta </th>
+        <td mat-cell *matCellDef="let element"> {{element.FechaAlta}} </td>
       </ng-container>
-
-      <!-- Observaciones Column -->
-      <ng-container matColumnDef="observaciones">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Observaciones </th>
-        <td mat-cell *matCellDef="let row"> {{row.observaciones}} </td>
-      </ng-container>
-
-      <!-- Cantidad Column -->
-      <ng-container matColumnDef="cantidad">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Cantidad </th>
-        <td mat-cell *matCellDef="let row"> {{row.cantidad}} </td>
-      </ng-container>
-
-      <!-- Condición Column -->
-      <ng-container matColumnDef="condicion">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Condición </th>
-        <td mat-cell *matCellDef="let row"> {{row.condicion}} </td>
-      </ng-container>
-
-      <!-- Ubicación Column -->
-      <ng-container matColumnDef="ubicacion">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Ubicación </th>
-        <td mat-cell *matCellDef="let row"> {{row.ubicacion}} </td>
-      </ng-container>
-
-      <!-- Estado Column -->
-      <ng-container matColumnDef="estado">
+    
+      <!-- FechaBaja -->
+      <ng-container matColumnDef="FechaBaja">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado </th>
-        <td mat-cell *matCellDef="let row"> {{row.estado}} </td>
+        <td mat-cell *matCellDef="let row"> 
+          {{ row.FechaBaja ? 'Inactivo' : 'Activo' }} 
+        </td>
       </ng-container>
-
-      <!-- Acciones Column -->
+    
+      <!-- Codigo -->
+      <ng-container matColumnDef="Codigo">
+        <th mat-header-cell *matHeaderCellDef> Código </th>
+        <td mat-cell *matCellDef="let element"> {{element.Codigo}} </td>
+      </ng-container>
+    
+      <!-- Cantidad -->
+      <ng-container matColumnDef="Cantidad">
+        <th mat-header-cell *matHeaderCellDef> Cantidad </th>
+        <td mat-cell *matCellDef="let element"> {{element.Cantidad}} </td>
+      </ng-container>
+    
+      <!-- Marca -->
+      <ng-container matColumnDef="Marca">
+        <th mat-header-cell *matHeaderCellDef> Marca </th>
+        <td mat-cell *matCellDef="let element"> {{element.Marca}} </td>
+      </ng-container>
+    
+      <!-- Observacion -->
+      <ng-container matColumnDef="Observacion">
+        <th mat-header-cell *matHeaderCellDef> Observación </th>
+        <td mat-cell *matCellDef="let element"> {{element.Observacion}} </td>
+      </ng-container>
+    
+      <!-- IdTipoInsumo -->
+      <ng-container matColumnDef="IdTipoInsumo">
+        <th mat-header-cell *matHeaderCellDef> Tipo Insumo </th>
+        <td mat-cell *matCellDef="let element"> {{element.IdTipoInsumo}} </td>
+      </ng-container>
+    
+      <!-- IdCondicionInsumo -->
+      <ng-container matColumnDef="IdCondicionInsumo">
+        <th mat-header-cell *matHeaderCellDef> Condición </th>
+        <td mat-cell *matCellDef="let element"> {{element.IdCondicionInsumo}} </td>
+      </ng-container>
+    
+      <!-- IdEstado -->
+      <ng-container matColumnDef="IdEstado">
+        <th mat-header-cell *matHeaderCellDef> Estado </th>
+        <td mat-cell *matCellDef="let element"> {{element.IdEstado}} </td>
+      </ng-container>
+    
+      <!-- Ubicacion_Sedes_IdSedes -->
+      <ng-container matColumnDef="Ubicacion_Sedes_IdSedes">
+        <th mat-header-cell *matHeaderCellDef> Ubicación Sede </th>
+        <td mat-cell *matCellDef="let element"> {{element.Ubicacion_Sedes_IdSedes}} </td>
+      </ng-container>
+    
+      <!-- Acciones -->
       <ng-container matColumnDef="acciones">
         <th mat-header-cell *matHeaderCellDef> Acciones </th>
         <td mat-cell *matCellDef="let row">
@@ -130,13 +166,13 @@
               <mat-icon>location_on</mat-icon>
               <span>Asignar Ubicación</span>
             </button>
-            <button mat-menu-item >
-              <mat-icon>block</mat-icon>
-              <span>Inhabilitar</span>
-            </button>
-            <button mat-menu-item>
+            <button mat-menu-item (click)="habilitarInsumo(row.IdInsumos)">
               <mat-icon>done</mat-icon>
               <span>Habilitar</span>
+            </button>
+            <button mat-menu-item (click)="inhabilitarInsumo(row.IdInsumos)">
+              <mat-icon>block</mat-icon>
+              <span>Inhabilitar</span>
             </button>
             <button mat-menu-item >
               <mat-icon>cached</mat-icon>
@@ -146,15 +182,19 @@
         </td>
       </ng-container>
 
+    
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      
+      <!-- Data Rows -->
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
       <!-- Row shown when there is no matching data. -->
-      <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell" colspan="10">No data matching the filter "{{input.value}}"</td>
+      <tr class="no-data-row" *matNoDataRow>
+        <td class="mat-cell" colspan="15">No se encontraron resultados</td>
       </tr>
+      
     </table>
-
-    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of inusmo"></mat-paginator>
+    
   </div>
 </div>

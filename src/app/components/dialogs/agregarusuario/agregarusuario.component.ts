@@ -13,26 +13,15 @@ import { AlertasService } from '../../../service/alertas/alertas.service';
     <div class="dialog-content" mat-dialog-content>
       <ng-container>
         
-      <mat-form-field appearance="fill">
-        <mat-label>Id Usuario</mat-label>
-        <input matInput disabled [(ngModel)]="usuarioParaAgregar.IdUsuario" placeholder="Id Usuario">
-      </mat-form-field>
 
       <mat-form-field appearance="fill">
         <mat-label>Usuario</mat-label>
         <input matInput [(ngModel)]="usuarioParaAgregar.Usuario" placeholder="Usuario">
       </mat-form-field>
-
       <mat-form-field appearance="fill">
         <mat-label>Clave</mat-label>
         <input matInput [(ngModel)]="usuarioParaAgregar.Clave" type="password" placeholder="Clave">
       </mat-form-field>
-
-      <mat-form-field appearance="fill">
-        <mat-label>Persona</mat-label>
-        <input matInput [(ngModel)]="usuarioParaAgregar.IdPersona" type="number" placeholder="ID de Persona">
-      </mat-form-field>
-
       <mat-form-field appearance="fill">
         <mat-label>Sede</mat-label>
         <input matInput [(ngModel)]="usuarioParaAgregar.IdSede" type="number" placeholder="ID de Sede">
@@ -55,7 +44,6 @@ import { AlertasService } from '../../../service/alertas/alertas.service';
 export class AgregarusuarioComponent {
 
   usuarioParaAgregar = {
-    IdUsuario:'',
     Usuario: '',
     Clave: '',
     IdPersona: '', // Aquí se asignará el IdPersona
@@ -86,30 +74,19 @@ export class AgregarusuarioComponent {
 
     // Llamar al servicio para agregar el usuario
     this.usuariosService.agregarUsuario(this.usuarioParaAgregar).subscribe({
-      next: (response) => {
-        const status = response.status;
-        const mensaje = response.body?.message;
+      next: (result) => {
+        const mensaje = result.message;
+        const status = result.status;
 
-        if (status === 200) {
-          this.alertasService.OkAlert('Éxito', mensaje);
-        } else if (status === 400) {
-          this.alertasService.ErrorAlert('Error', mensaje);
-        } else if (status === 500) {
-          this.alertasService.ErrorAlert('Error', mensaje);
-        } else {
-          this.alertasService.WarningAlert('Advertencia', 'Ocurrió un error inesperado');
-        }
+        // Llamamos al servicio para mostrar la alerta según el status
+        this.alertasService.mostrarAlerta(status, 'Resultado', mensaje);
 
-        this.dialogRef.close(response.body);
+        this.dialogRef.close(result);
       },
       error: (error) => {
         const status = error.status;
-
-        if (status === 500) {
-          this.alertasService.ErrorAlert('Error', 'Error interno del servidor');
-        } else {
-          this.alertasService.ErrorAlert('Error', 'No se pudo agregar el usuario');
-        }
+        const mensaje = error.body?.message || 'No se pudo agregar el usuario';
+        this.alertasService.mostrarAlerta(status, 'Error', mensaje);
       }
     });
   }

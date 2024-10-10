@@ -72,6 +72,11 @@
         <td mat-cell *matCellDef="let row"> {{row.Telefono}} </td>
       </ng-container>
 
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+        <td mat-cell *matCellDef="let row"> {{row.Email}} </td>
+      </ng-container>
+
       <ng-container matColumnDef="fechaAlta" >
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Alta </th>
         <td mat-cell *matCellDef="let row" > {{row.FechaAlta}} </td>

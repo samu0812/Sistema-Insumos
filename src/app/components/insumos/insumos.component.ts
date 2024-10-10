@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, ViewEncapsulation  } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -8,47 +8,63 @@ import { AgregarinsumosComponent } from '../dialogs/insumos/insumos.component';
 import { AgregarPcComponent } from '../dialogs/agregarpc/agregarpc.component';
 import { RealizarprestamodialogComponent } from '../dialogs/realizarprestamodialog/realizarprestamodialog.component';
 import { GenerarpedidodialogComponent } from '../dialogs/generarpedidodialog/generarpedidodialog.component';
-
-export interface InsumoData {
-  nombre: string;
-  codigo: string;
-  descripcion: string;
-  marca: string;
-  observaciones: string;
-  cantidad: number;
-  condicion: string;
-  ubicacion: string;
-  estado: string;
-}
+import { InsumosService } from '../../service/insumos/insumos.service';
+import { Insumo } from '../../models/insumos/insumo';
 
 @Component({
   selector: 'app-insumos',
   templateUrl: './insumos.component.html',
-  styleUrls: ['./insumos.component.css']
+  styleUrls: ['./insumos.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
-export class InsumosComponent implements AfterViewInit {
-  displayedColumns: string[] = ['select', 'nombre', 'codigo', 'descripcion', 'marca', 'observaciones', 'cantidad', 'condicion', 'ubicacion', 'estado', 'acciones'];
-  dataSource: MatTableDataSource<InsumoData>;
-  selection = new SelectionModel<InsumoData>(true, []); // Para habilitar selección múltiple
+export class InsumosComponent implements OnInit, AfterViewInit {
+
+  displayedColumns: string[] = [
+    'select', 'IdInsumos', 'NombreInsumo', 'Descripcion', 'FechaAlta', 'FechaBaja',
+    'Codigo', 'Cantidad', 'Marca', 'Observacion', 'IdTipoInsumo', 'IdCondicionInsumo',
+    'IdEstado', 'Ubicacion_Sedes_IdSedes', 'acciones'
+  ];  dataSource = new MatTableDataSource<Insumo>();
+  selection = new SelectionModel<Insumo>(true, []);
+  selectedEstado: number = 1; 
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(public dialog: MatDialog) {
-    const insumos: InsumoData[] = [
-      { nombre: 'Memoria RAM', codigo: '1234', descripcion: '8GB DDR4', marca: 'Corsair', observaciones: 'Nueva', cantidad: 10, condicion: 'Nuevo', ubicacion: 'Estante 1', estado: 'Activo' },
-      { nombre: 'Memoria RAM', codigo: '1234', descripcion: '8GB DDR4', marca: 'Corsair', observaciones: 'Nueva', cantidad: 10, condicion: 'Nuevo', ubicacion: 'Estante 1', estado: 'Activo' },
-      { nombre: 'Memoria RAM', codigo: '1234', descripcion: '8GB DDR4', marca: 'Corsair', observaciones: 'Nueva', cantidad: 10, condicion: 'Nuevo', ubicacion: 'Estante 1', estado: 'Activo' },
-      { nombre: 'Memoria RAM', codigo: '1234', descripcion: '8GB DDR4', marca: 'Corsair', observaciones: 'Nueva', cantidad: 10, condicion: 'Nuevo', ubicacion: 'Estante 1', estado: 'Activo' },
-      // Add more sample data here
-    ];
+  constructor(private insumosService: InsumosService, public dialog: MatDialog) {}
 
-    this.dataSource = new MatTableDataSource(insumos);
+  ngOnInit() {
+    this.cargarInsumos(this.selectedEstado); // Llamar a la función para cargar los insumos al inicializar el componente
   }
+  
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+  }
+
+  cargarInsumos(estado: number) {
+    this.insumosService.listarInsumo(estado.toString()).subscribe(
+      (insumos: Insumo[]) => {
+        this.dataSource.data = insumos;
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      },
+      (error) => {
+        console.error('Error al cargar los insumos:', error);
+      }
+    );
+  }
+
+  habilitarInsumo(idInsumo: number) {
+    this.insumosService.habilitarInsumo(idInsumo).subscribe(() => {
+      this.cargarInsumos(this.selectedEstado);
+    });
+  }
+
+  inhabilitarInsumo(idInsumo: number) {
+    this.insumosService.inhabilitarInsumo(idInsumo).subscribe(() => {
+      this.cargarInsumos(this.selectedEstado);
+    });
   }
 
   // Filtrado de la tabla
@@ -72,7 +88,7 @@ export class InsumosComponent implements AfterViewInit {
     return this.selection.selected.length > 0 && !this.isAllSelected();
   }
 
-  toggleRow(row: InsumoData) {
+  toggleRow(row: Insumo) {
     this.selection.toggle(row);
   }
 
@@ -82,7 +98,7 @@ export class InsumosComponent implements AfterViewInit {
       this.dataSource.data.forEach(row => this.selection.select(row));
   }
 
-  selectRow(row: InsumoData) {
+  selectRow(row: Insumo) {
     this.selection.toggle(row);
   }
 
@@ -131,6 +147,11 @@ export class InsumosComponent implements AfterViewInit {
     } else {
       alert('No hay insumos seleccionados para realizar el préstamo');
     }
+  }
+
+  onEstadoChange(event: any): void {
+    this.selectedEstado = event.value;
+    this.cargarInsumos(this.selectedEstado);
   }
   
 }
