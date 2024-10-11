@@ -162,18 +162,18 @@ export class UsuariosComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.usuariosService.inhabilitar(row.IdPersona).subscribe({
-          next: (result) => {
-            const mensaje = result.message;
-            const status = result.status;
-    
-            // Llamamos al servicio para mostrar la alerta según el status
-            this.alertasService.mostrarAlerta(status, 'Resultado', mensaje);
+          next: (response) => {
+            const mensaje = response.body.message;
+            const status = response.body.status;
+      
+            // Mostrar alerta según el estado recibido
+            this.alertasService.mostrarAlerta(status.toString(), 'Ok', mensaje);
             this.cargarUsuarios(this.selectedEstado);
           },
           error: (error) => {
-            const status = error.status;
-            const mensaje = error.body?.message || 'No se pudo agregar el usuario';
-            this.alertasService.mostrarAlerta(status, 'Error', mensaje);
+            const status = error.status || 500;
+            const mensaje = error.error?.message || 'Error al agregar la persona';
+            this.alertasService.mostrarAlerta(status.toString(), 'Error', mensaje);
             this.cargarUsuarios(this.selectedEstado);
           }
         });
@@ -192,22 +192,22 @@ export class UsuariosComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
         if (result) {
             this.usuariosService.inhabilitarUsuario(row.IdUsuario).subscribe({
-              next: (result) => {
-                const mensaje = result.message;
-                const status = result.status;
-        
-                // Llamamos al servicio para mostrar la alerta según el status
-                this.alertasService.mostrarAlerta(status, 'Resultado', mensaje);
+              next: (response) => {
+                const mensaje = response.body.message;
+                const status = response.body.status;
+          
+                // Mostrar alerta según el estado recibido
+                this.alertasService.mostrarAlerta(status.toString(), 'Ok', mensaje);
                 this.cargarUsuarios(this.selectedEstado);
               },
               error: (error) => {
-                const status = error.status;
-                const mensaje = error.body?.message || 'No se pudo agregar el usuario';
-                this.alertasService.mostrarAlerta(status, 'Error', mensaje);
+                const status = error.status || 500;
+                const mensaje = error.error?.message || 'Error al agregar la persona';
+                this.alertasService.mostrarAlerta(status.toString(), 'Error', mensaje);
                 this.cargarUsuarios(this.selectedEstado);
               }
             });
-        }
+          }
     });
   }
 
@@ -222,19 +222,18 @@ export class UsuariosComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.usuariosService.habilitar(row.IdPersona).subscribe({
-          next: (result) => {
-            const mensaje = result.message;
-            const status = result.status;
-    
-            // Llamamos al servicio para mostrar la alerta según el status
-            console.log(status);
-            this.alertasService.mostrarAlerta(status, 'Resultado', mensaje);
+          next: (response) => {
+            const mensaje = response.body.message;
+            const status = response.body.status;
+      
+            // Mostrar alerta según el estado recibido
+            this.alertasService.mostrarAlerta(status.toString(), 'Ok', mensaje);
             this.cargarUsuarios(this.selectedEstado);
           },
           error: (error) => {
-            const status = error.status;
-            const mensaje = error.body?.message || 'No se pudo agregar el usuario';
-            this.alertasService.mostrarAlerta(status, 'Error', mensaje);
+            const status = error.status || 500;
+            const mensaje = error.error?.message || 'Error al agregar la persona';
+            this.alertasService.mostrarAlerta(status.toString(), 'Error', mensaje);
             this.cargarUsuarios(this.selectedEstado);
           }
         });
@@ -254,16 +253,18 @@ export class UsuariosComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.usuariosService.habilitarUsuario(row.IdUsuario).subscribe({
-          next: (result) => {
-            const mensaje = result.message;
-            const status = result.status;
-            this.alertasService.mostrarAlerta(status, 'Resultado', mensaje);
+          next: (response) => {
+            const mensaje = response.body.message;
+            const status = response.body.status;
+      
+            // Mostrar alerta según el estado recibido
+            this.alertasService.mostrarAlerta(status.toString(), 'Ok', mensaje);
             this.cargarUsuarios(this.selectedEstado);
           },
           error: (error) => {
-            const status = error.status;
-            const mensaje = error.body?.message || 'No se pudo agregar el usuario';
-            this.alertasService.mostrarAlerta(status, 'Error', mensaje);
+            const status = error.status || 500;
+            const mensaje = error.error?.message || 'Error al agregar la persona';
+            this.alertasService.mostrarAlerta(status.toString(), 'Error', mensaje);
             this.cargarUsuarios(this.selectedEstado);
           }
         });

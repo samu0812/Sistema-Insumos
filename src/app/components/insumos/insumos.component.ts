@@ -10,6 +10,7 @@ import { RealizarprestamodialogComponent } from '../dialogs/realizarprestamodial
 import { GenerarpedidodialogComponent } from '../dialogs/generarpedidodialog/generarpedidodialog.component';
 import { InsumosService } from '../../service/insumos/insumos.service';
 import { Insumo } from '../../models/insumos/insumo';
+import { EditarinsumoComponent } from '../dialogs/editarinsumo/editarinsumo.component';
 
 @Component({
   selector: 'app-insumos',
@@ -152,6 +153,19 @@ export class InsumosComponent implements OnInit, AfterViewInit {
   onEstadoChange(event: any): void {
     this.selectedEstado = event.value;
     this.cargarInsumos(this.selectedEstado);
+  }
+  openEditDialog(insumo: any): void {
+    const dialogRef = this.dialog.open(EditarinsumoComponent, {
+      width: '400px',
+      data: insumo // Aquí pasas el insumo que deseas editar
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('El insumo ha sido modificado');
+        // Actualiza la lista de insumos o realiza otras acciones necesarias
+      }
+    });
   }
   
 }

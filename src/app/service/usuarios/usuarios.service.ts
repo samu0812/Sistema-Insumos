@@ -15,7 +15,7 @@ export class UsuariosService {
   // Método para dar de alta una persona
   agregar(persona: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/AltaPersona`, persona, { observe: 'response' });
-  }
+  }  
 
   // Método para modificar una persona
   modificarPersona(persona: any): Observable<any> {
@@ -24,18 +24,19 @@ export class UsuariosService {
 
 
   inhabilitar(idPersona: number): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/BajaPersona`, { IdPersona: idPersona });
+    return this.http.post<any>(`${this.apiUrl}/BajaPersona`, { IdPersona: idPersona }, { observe: 'response' });
   }
 
 
   habilitar(idPersona: number): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/HabilitarPersona`, { IdPersona: idPersona });
+    return this.http.post<any>(`${this.apiUrl}/HabilitarPersona`, { IdPersona: idPersona }, { observe: 'response' });
   }
 
   // Nuevo método para listar personas con un filtro (SPL_Persona)
   listar(filtro: string): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/VerPersona`, { Filtro: filtro });
   }
+  
 
   listarUsuario(filtro: string): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/VerUsuario`, { Filtro: filtro });
@@ -52,11 +53,11 @@ export class UsuariosService {
     }
 
     inhabilitarUsuario(idUsuario: number): Observable<any> {
-      return this.http.post<any>(`${this.apiUrl}/BajaUsuario`, { IdUsuario: idUsuario });
+      return this.http.post<any>(`${this.apiUrl}/BajaUsuario`, { IdUsuario: idUsuario }, { observe: 'response' });
     }
   
   
     habilitarUsuario(idUsuario: number): Observable<any> {
-      return this.http.post<any>(`${this.apiUrl}/HabilitarUsuario`, { IdUsuario: idUsuario });
+      return this.http.post<any>(`${this.apiUrl}/HabilitarUsuario`, { IdUsuario: idUsuario }, { observe: 'response' });
     }
 }

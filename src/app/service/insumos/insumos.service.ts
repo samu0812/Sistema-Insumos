@@ -13,8 +13,7 @@ export class InsumosService {
 
   // Alta de insumo
   agregarInsumo(insumo: any): Observable<any> {
-    const url = `${this.apiUrl}/AltaInsumo`;
-    return this.http.post(url, insumo, { observe: 'response' });
+    return this.http.post<any>(`${this.apiUrl}/AltaInsumo`, insumo, { observe: 'response' });
   }
 
   // Ver insumo
@@ -24,25 +23,16 @@ export class InsumosService {
 
   // Baja de insumo
   inhabilitarInsumo(idInsumo: number): Observable<any> {
-    const url = `${this.apiUrl}/BajaInsumo`;
-    return this.http.post(url, { IdInsumos: idInsumo }, {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-    });
+    return this.http.post<any>(`${this.apiUrl}/BajaInsumo`, { idInsumo: idInsumo }, { observe: 'response' });
   }
 
   // Modificar insumo
   modificarInsumo(insumo: any): Observable<any> {
-    const url = `${this.apiUrl}/ModificarInsumo`;
-    return this.http.post(url, insumo, {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-    });
+    return this.http.post<any>(`${this.apiUrl}/ModificarInsumo`, insumo, { observe: 'response' });
   }
 
   // Habilitar insumo
   habilitarInsumo(idInsumo: number): Observable<any> {
-    const url = `${this.apiUrl}/HabilitarInsumo`;
-    return this.http.post(url, { IdInsumos: idInsumo }, {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-    });
+    return this.http.post<any>(`${this.apiUrl}/HabilitarInsumo`, { idInsumo: idInsumo }, { observe: 'response' });
   }
 }

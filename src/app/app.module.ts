@@ -48,7 +48,7 @@ import { LoadingComponent } from './components/loading/loading.component';
 import { ErrorComponent } from './components/error/error.component';
 import { DenegadoComponent } from './components/denegado/denegado.component';
 import { AgregarusuarioComponent } from './components/dialogs/agregarusuario/agregarusuario.component';
-
+import { EditarinsumoComponent } from './components/dialogs/editarinsumo/editarinsumo.component';
 
 
 @NgModule({
@@ -75,7 +75,8 @@ import { AgregarusuarioComponent } from './components/dialogs/agregarusuario/agr
     LoadingComponent,
     ErrorComponent,
     DenegadoComponent,
-    AgregarusuarioComponent
+    AgregarusuarioComponent,
+    EditarinsumoComponent
   ],
   imports: [
     BrowserModule,

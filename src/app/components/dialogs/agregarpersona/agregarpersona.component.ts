@@ -76,28 +76,28 @@ export class AgregarpersonaComponent {
 
   agregar(): void {
     if (!this.personaParaAgregar.Nombre || !this.personaParaAgregar.Apellido || !this.personaParaAgregar.Dni || 
-      !this.personaParaAgregar.FechaDeNacimiento || !this.personaParaAgregar.Telefono || !this.personaParaAgregar.Email) {
+        !this.personaParaAgregar.FechaDeNacimiento || !this.personaParaAgregar.Telefono || !this.personaParaAgregar.Email) {
       this.alertasService.WarningAlert('Campos incompletos', 'Por favor, complete todos los campos antes de continuar.');
       return;
     }
   
     this.usuariosService.agregar(this.personaParaAgregar).subscribe({
-      next: (result) => {
-        const mensaje = result.message;
-        const status = result.status;
-
-        // Llamamos al servicio para mostrar la alerta según el status
-        this.alertasService.mostrarAlerta(status, 'Resultado', mensaje);
-
-        this.dialogRef.close(result);
+      next: (response) => {
+        const mensaje = response.body.message;
+        const status = response.body.status;
+  
+        // Mostrar alerta según el estado recibido
+        this.alertasService.mostrarAlerta(status.toString(), 'Ok', mensaje);
+        this.dialogRef.close(response.body);  // Cierra el diálogo con la respuesta
       },
       error: (error) => {
-        const status = error.status;
-        const mensaje = error.body?.message || 'No se pudo agregar el usuario';
-        this.alertasService.mostrarAlerta(status, 'Error', mensaje);
+        const status = error.status || 500;
+        const mensaje = error.error?.message || 'Error al agregar la persona';
+        this.alertasService.mostrarAlerta(status.toString(), 'Error', mensaje);
       }
     });
   }
+  
   
   
 }

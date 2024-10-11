@@ -119,20 +119,18 @@ export class EditarusuarioComponent {
       }
 
       this.usuariosService.modificarPersona(this.personaEdit).subscribe({
-        next: (result) => {
-          const mensaje = result.message;
-          const status = result.status;
-  
-          // Llamamos al servicio para mostrar la alerta según el status
-          this.alertasService.mostrarAlerta(status, 'Resultado', mensaje);
-  
-          Object.assign(this.data.user, this.personaEdit);
-          this.dialogRef.close(result);
+        next: (response) => {
+          const mensaje = response.body.message;
+          const status = response.body.status;
+    
+          // Mostrar alerta según el estado recibido
+          this.alertasService.mostrarAlerta(status.toString(), 'Ok', mensaje);
+          this.dialogRef.close(response.body);  // Cierra el diálogo con la respuesta
         },
         error: (error) => {
-          const status = error.status;
-          const mensaje = error.body?.message || 'No se pudo agregar el usuario';
-          this.alertasService.mostrarAlerta(status, 'Error', mensaje);
+          const status = error.status || 500;
+          const mensaje = error.error?.message || 'Error al agregar la persona';
+          this.alertasService.mostrarAlerta(status.toString(), 'Error', mensaje);
         }
       });
     } else if (this.data.type === 'editarUsuario') {
@@ -143,20 +141,18 @@ export class EditarusuarioComponent {
       }
 
       this.usuariosService.modificarUsuario(this.usuarioEdit).subscribe({
-        next: (result) => {
-          const mensaje = result.message;
-          const status = result.status;
-  
-          // Llamamos al servicio para mostrar la alerta según el status
-          this.alertasService.mostrarAlerta(status, 'Resultado', mensaje);
-  
-          Object.assign(this.data.user, this.usuarioEdit);
-          this.dialogRef.close(result);
+        next: (response) => {
+          const mensaje = response.body.message;
+          const status = response.body.status;
+    
+          // Mostrar alerta según el estado recibido
+          this.alertasService.mostrarAlerta(status.toString(), 'Ok', mensaje);
+          this.dialogRef.close(response.body);  // Cierra el diálogo con la respuesta
         },
         error: (error) => {
-          const status = error.status;
-          const mensaje = error.body?.message || 'No se pudo agregar el usuario';
-          this.alertasService.mostrarAlerta(status, 'Error', mensaje);
+          const status = error.status || 500;
+          const mensaje = error.error?.message || 'Error al agregar la persona';
+          this.alertasService.mostrarAlerta(status.toString(), 'Error', mensaje);
         }
       });
     }

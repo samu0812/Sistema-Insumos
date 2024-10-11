@@ -12,6 +12,7 @@ export class SedesService {
   constructor(private http: HttpClient) {}
 
   listarSedes(filtro: string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/VerSedes`, { Filtro: filtro });
+    return this.http.post<any>(`${this.apiUrl}/VerSedes`, { FiltroSede: filtro });
   }
+  
 }
