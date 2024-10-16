@@ -39,7 +39,7 @@ import { AlertasService } from '../../../service/alertas/alertas.service';
 
       <mat-form-field appearance="fill">
         <mat-label>Email</mat-label>
-        <input matInput [(ngModel)]="personaParaAgregar.Email" placeholder="Teléfono">
+        <input matInput type="email" [(ngModel)]="personaParaAgregar.Email" placeholder="Email">
       </mat-form-field>
 
       </ng-container>

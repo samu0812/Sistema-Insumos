@@ -26,7 +26,7 @@ import { SedesService } from '../../../service/sedes/sedes.service'; // Importa 
         <mat-form-field appearance="fill">
           <mat-label>Sede</mat-label>
           <mat-select [(ngModel)]="usuarioParaAgregar.IdSede">
-            <mat-option *ngFor="let sede of sedes" [value]="sede.IdSede">{{ sede.Descripcion }}</mat-option>
+            <mat-option *ngFor="let sede of sedes" [value]="sede.IdSedes">{{ sede.Descripcion }}</mat-option>
           </mat-select>
         </mat-form-field>
 
@@ -50,7 +50,7 @@ export class AgregarusuarioComponent implements OnInit {
     Usuario: '',
     Clave: '',
     IdPersona: '', // Aquí se asignará el IdPersona
-    IdSede: '',
+    IdSede: null,
     TipoRol_idTipoRol: ''
   };
 

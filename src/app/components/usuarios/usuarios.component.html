@@ -22,8 +22,8 @@
   <mat-form-field appearance="outline">
     <mat-label>Filtrar Por:</mat-label>
     <mat-select (selectionChange)="onEstadoChange($event)">
-      <mat-option value="1">Habilitados</mat-option>
-      <mat-option value="2">Inhabilitados</mat-option>
+      <mat-option value=1>Habilitados</mat-option>
+      <mat-option value=2>Inhabilitados</mat-option>
     </mat-select>
   </mat-form-field>
   
@@ -79,7 +79,7 @@
 
       <ng-container matColumnDef="fechaAlta" >
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Alta </th>
-        <td mat-cell *matCellDef="let row" > {{row.FechaAlta}} </td>
+        <td mat-cell *matCellDef="let row"> {{row.FechaAlta}} </td>
       </ng-container>
       <ng-container matColumnDef="fechaBaja">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado </th>
@@ -91,7 +91,7 @@
 
       <!-- Usuario Column -->
       <ng-container matColumnDef="usuario">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre de Usuario </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Usuario </th>
         <td mat-cell *matCellDef="let row"> {{row.Usuario}} </td>
       </ng-container>
 
@@ -109,15 +109,15 @@
       </ng-container>
 
       <ng-container matColumnDef="fechaBajaUsuario">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado Usuario </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Baja Usuario </th>
         <td mat-cell *matCellDef="let row"> 
-          {{ row.FechaBajaUsuario ? 'Inactivo' : '-' }} 
+          {{ row.FechaBajaUsuario ? 'Inactivo' : 'Activo' }} 
         </td>
       </ng-container>
       
 
       <ng-container matColumnDef="fechaAltaUsuario">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Alta Usuario </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Alta Usuario </th>
         <td mat-cell *matCellDef="let row"> {{row.FechaAltaUsuario}} </td>
       </ng-container>
 

@@ -156,7 +156,7 @@ export class InsumosComponent implements OnInit, AfterViewInit {
   }
   openEditDialog(insumo: any): void {
     const dialogRef = this.dialog.open(EditarinsumoComponent, {
-      width: '400px',
+      width: '600px',
       data: insumo // Aquí pasas el insumo que deseas editar
     });
   

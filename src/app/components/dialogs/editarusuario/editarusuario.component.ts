@@ -43,7 +43,7 @@ import { AlertasService } from '../../../service/alertas/alertas.service';
 
       <mat-form-field appearance="fill">
         <mat-label>Correo Electronico</mat-label>
-        <input matInput placeholder="Correo" [(ngModel)]="personaEdit.Email">
+        <input matInput placeholder="Correo" type="email" [(ngModel)]="personaEdit.Email">
       </mat-form-field>
     </ng-container>
 

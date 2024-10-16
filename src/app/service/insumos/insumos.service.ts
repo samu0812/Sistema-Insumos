@@ -35,4 +35,17 @@ export class InsumosService {
   habilitarInsumo(idInsumo: number): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/HabilitarInsumo`, { idInsumo: idInsumo }, { observe: 'response' });
   }
+
+  listarCondicionInsumo(filtro: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/VerCondicionInsumo`, { FiltroCondicionInsumo: filtro });
+  }
+
+  listarEstado(filtro: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/VerEstado`, { FiltroEstado: filtro });
+  }
+
+  listarTipoInsumo(filtro: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/VerTipoInsumo`, { FiltroTipoInsumo: filtro });
+  }
+  
 }

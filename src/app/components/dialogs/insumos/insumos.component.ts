@@ -6,7 +6,7 @@ import { AlertasService } from '../../../service/alertas/alertas.service';
 @Component({
   selector: 'insumos-dialog',
   template: `
-<h1>Agregar Insumo
+<h1>Editar Insumo
   <img src="../../../assets/insumos.png" class="logo">
 </h1>
 <div class="dialog-content" mat-dialog-content>
@@ -43,27 +43,21 @@ import { AlertasService } from '../../../service/alertas/alertas.service';
   <mat-form-field appearance="fill">
     <mat-label>Tipo de Insumo</mat-label>
     <mat-select [(ngModel)]="insumoNuevo.IdTipoInsumo">
-      <mat-option value=1>Ram</mat-option>
-      <mat-option value=2>Procesador</mat-option>
-      <mat-option value=3>Pc</mat-option>
-    </mat-select>
+            <mat-option *ngFor="let tipoInsumo of ltTipoInsumo" [value]="tipoInsumo.IdTipoInsumo">{{ tipoInsumo.Descripcion }}</mat-option>
+          </mat-select>
   </mat-form-field>
 
   <mat-form-field appearance="fill">
     <mat-label>Condición</mat-label>
     <mat-select [(ngModel)]="insumoNuevo.IdCondicionInsumo">
-      <mat-option value=1>Nuevo</mat-option>
-      <mat-option value=2>Usado</mat-option>
-      <mat-option value=3>Reparado</mat-option>
-    </mat-select>
+            <mat-option *ngFor="let condicionInsumo of ltCondicionInsumo" [value]="condicionInsumo.IdCondicionInsumo">{{ condicionInsumo.Descripcion }}</mat-option>
+          </mat-select>
   </mat-form-field>
 
   <mat-form-field appearance="fill">
     <mat-label>Estado</mat-label>
     <mat-select [(ngModel)]="insumoNuevo.IdEstado">
-      <mat-option value=1>Ocupado</mat-option>
-      <mat-option value=2>No Devuelto</mat-option>
-      <mat-option value=3>Disponible</mat-option>
+    <mat-option *ngFor="let estado of ltEstado" [value]="estado.IdEstado">{{ estado.Descripcion }}</mat-option>
     </mat-select>
   </mat-form-field>
 
@@ -94,12 +88,15 @@ export class AgregarinsumosComponent {
     Descripcion: '',
     Marca: '',
     Observacion: '',
-    Cantidad: 0,
+    Cantidad: 1,
     IdTipoInsumo: 0,
     IdCondicionInsumo: 0,
     IdEstado: 0,
     Ubicacion_Sedes_IdSedes: 0,
   };
+  ltCondicionInsumo: any[] = [];
+  ltEstado: any[] = [];
+  ltTipoInsumo: any[] = [];
   
   constructor(
     public dialogRef: MatDialogRef<AgregarinsumosComponent>,
@@ -107,6 +104,37 @@ export class AgregarinsumosComponent {
     private insumosService: InsumosService,
     private alertasService: AlertasService
   ) {}
+
+  ngOnInit(): void {
+    // Cargar las sedes desde el servicio con filtro '1'
+    this.insumosService.listarCondicionInsumo('1').subscribe({
+      next: (response) => {
+        this.ltCondicionInsumo = response || []; // Asignar las sedes directamente
+        console.log('Sedes recibidas:', response); // Mostrar las sedes en consola
+      },
+      error: (error) => {
+        this.alertasService.mostrarAlerta('500', 'Error', 'Error al cargar las cpndicion insumo');
+      }
+    });
+    this.insumosService.listarEstado('1').subscribe({
+      next: (response) => {
+        this.ltEstado = response || []; // Asignar las sedes directamente
+        console.log('Sedes recibidas:', response); // Mostrar las sedes en consola
+      },
+      error: (error) => {
+        this.alertasService.mostrarAlerta('500', 'Error', 'Error al cargar las estados');
+      }
+    });
+    this.insumosService.listarTipoInsumo('1').subscribe({
+      next: (response) => {
+        this.ltTipoInsumo = response || []; // Asignar las sedes directamente
+        console.log('Sedes recibidas:', response); // Mostrar las sedes en consola
+      },
+      error: (error) => {
+        this.alertasService.mostrarAlerta('500', 'Error', 'Error al cargar tipo insumo');
+      }
+    });
+  }
 
 
   onCancelClick(): void {
