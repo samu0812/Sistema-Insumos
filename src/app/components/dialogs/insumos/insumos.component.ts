@@ -110,7 +110,7 @@ export class AgregarinsumosComponent {
     this.insumosService.listarCondicionInsumo('1').subscribe({
       next: (response) => {
         this.ltCondicionInsumo = response || []; // Asignar las sedes directamente
-        console.log('Sedes recibidas:', response); // Mostrar las sedes en consola
+        console.log('condicipn recibidas:', response); // Mostrar las sedes en consola
       },
       error: (error) => {
         this.alertasService.mostrarAlerta('500', 'Error', 'Error al cargar las cpndicion insumo');

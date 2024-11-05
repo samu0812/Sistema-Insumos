@@ -3,7 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UsuariosService } from '../../../service/usuarios/usuarios.service';
 import { AlertasService } from '../../../service/alertas/alertas.service';
 import { SedesService } from '../../../service/sedes/sedes.service'; // Importa el servicio de sedes
-
+import { RolService } from '../../../service/rol/rol.service';
 @Component({
   selector: 'app-agregarusuario',
   template: `
@@ -32,7 +32,9 @@ import { SedesService } from '../../../service/sedes/sedes.service'; // Importa 
 
         <mat-form-field appearance="fill">
           <mat-label>Rol</mat-label>
-          <input matInput [(ngModel)]="usuarioParaAgregar.TipoRol_idTipoRol" type="number" placeholder="ID de Rol">
+          <mat-select [(ngModel)]="usuarioParaAgregar.IdRol">
+            <mat-option *ngFor="let rol of roles" [value]="rol.IdRol">{{ rol.Descripcion }}</mat-option>
+          </mat-select>
         </mat-form-field>
       </ng-container>
     </div>
@@ -49,19 +51,22 @@ export class AgregarusuarioComponent implements OnInit {
   usuarioParaAgregar = {
     Usuario: '',
     Clave: '',
-    IdPersona: '', // Aquí se asignará el IdPersona
+    IdPersona: '', 
     IdSede: null,
-    TipoRol_idTipoRol: ''
+    IdRol: null
   };
 
   sedes: any[] = []; // Aquí guardaremos las sedes obtenidas del servicio
+  roles: any[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<AgregarusuarioComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any, // Recibe el idPersona
     private usuariosService: UsuariosService,
     private alertasService: AlertasService,
-    private sedesService: SedesService // Inyectamos el servicio de sedes
+    private sedesService: SedesService, // Inyectamos el servicio de sedes,
+    private RolService: RolService
+
   ) {
     // Asignar el IdPersona recibido al modelo
     this.usuarioParaAgregar.IdPersona = this.data.idPersona;
@@ -78,6 +83,16 @@ export class AgregarusuarioComponent implements OnInit {
         this.alertasService.mostrarAlerta('500', 'Error', 'Error al cargar las sedes');
       }
     });
+
+    this.RolService.listarRol('1').subscribe({
+      next: (response) => {
+        this.roles = response || []; // Asignar las sedes directamente
+        console.log('roles recibidos:', response); // Mostrar las sedes en consola
+      },
+      error: (error) => {
+        this.alertasService.mostrarAlerta('500', 'Error', 'Error al cargar las sedes');
+      }
+    });
   }
   
   
@@ -88,7 +103,7 @@ export class AgregarusuarioComponent implements OnInit {
 
   agregar(): void {
     // Verificar si todos los campos necesarios están completos
-    if (!this.usuarioParaAgregar.Usuario || !this.usuarioParaAgregar.Clave || !this.usuarioParaAgregar.IdSede || !this.usuarioParaAgregar.TipoRol_idTipoRol) {
+    if (!this.usuarioParaAgregar.Usuario || !this.usuarioParaAgregar.Clave || !this.usuarioParaAgregar.IdSede || !this.usuarioParaAgregar.IdRol) {
       this.alertasService.WarningAlert('Campos incompletos', 'Por favor, complete todos los campos antes de continuar.');
       return;
     }

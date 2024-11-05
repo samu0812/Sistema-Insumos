@@ -6,6 +6,6 @@ ClaveActual: any;
     Clave: string,
     IdPersona: number,
     IdSede: number,
-    TipoRol_idTipoRol: number,
+    IdRol: number,
 }
   

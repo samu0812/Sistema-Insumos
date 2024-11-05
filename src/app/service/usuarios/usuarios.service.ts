@@ -60,4 +60,8 @@ export class UsuariosService {
     habilitarUsuario(idUsuario: number): Observable<any> {
       return this.http.post<any>(`${this.apiUrl}/HabilitarUsuario`, { IdUsuario: idUsuario }, { observe: 'response' });
     }
+
+    cambiarClave(usuario: any): Observable<any> {
+      return this.http.post<any>(`${this.apiUrl}/CambiarClave`, usuario, { observe: 'response' });
+    }
 }

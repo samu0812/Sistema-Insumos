@@ -41,7 +41,7 @@ export class UsuariosComponent implements OnInit {
 
   agregarPersonaDialog(): void {
     const dialogRef = this.dialog.open(AgregarpersonaComponent, {
-      width: '400px',
+      width: '600px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -54,7 +54,7 @@ export class UsuariosComponent implements OnInit {
 
   agregarUsuarioDialog(row: persona): void {
     const dialogRef = this.dialog.open(AgregarusuarioComponent, {
-      width: '400px',
+      width: '600px',
       data: { idPersona: row.IdPersona } // Pasamos el IdPersona al diálogo
     });
   

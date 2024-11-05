@@ -4,7 +4,8 @@ import { UsuariosService } from '../../../service/usuarios/usuarios.service';
 import { persona } from '../../../models/usuarios/persona';
 import { Usuario } from '../../../models/usuarios/usuario';
 import { AlertasService } from '../../../service/alertas/alertas.service';
-
+import { SedesService } from '../../../service/sedes/sedes.service';
+import { RolService } from '../../../service/rol/rol.service';
 @Component({
   selector: 'app-editarusuario',
   template: `
@@ -65,12 +66,16 @@ import { AlertasService } from '../../../service/alertas/alertas.service';
 
   <mat-form-field appearance="fill">
     <mat-label>Sede</mat-label>
-    <input matInput placeholder="ID Sede" [(ngModel)]="usuarioEdit.IdSede" type="number">
+    <mat-select [(ngModel)]="usuarioEdit.IdSede">
+            <mat-option *ngFor="let sede of sedes" [value]="sede.IdSedes">{{ sede.Descripcion }}</mat-option>
+          </mat-select>
   </mat-form-field>
 
   <mat-form-field appearance="fill">
     <mat-label>Rol</mat-label>
-    <input matInput placeholder="ID Tipo Rol" [(ngModel)]="usuarioEdit.TipoRol_idTipoRol" type="number">
+    <mat-select [(ngModel)]="usuarioEdit.IdRol">
+            <mat-option *ngFor="let rol of roles" [value]="rol.IdRol">{{ rol.Descripcion }}</mat-option>
+          </mat-select>
   </mat-form-field>
 </ng-container>
 
@@ -86,12 +91,16 @@ import { AlertasService } from '../../../service/alertas/alertas.service';
 export class EditarusuarioComponent {
   personaEdit!: persona; // El operador ! asegura que TypeScript no lanzará el error
   usuarioEdit!: Usuario;
+  sedes: any[] = [];
+  roles: any[] = [];
 
   constructor(
     private alertasService: AlertasService,
     public dialogRef: MatDialogRef<EditarusuarioComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { type: string, user: persona | Usuario },
-    public usuariosService: UsuariosService
+    public usuariosService: UsuariosService,
+    private sedesService: SedesService,
+    private RolService: RolService
   ) {
     if (this.data.type === 'editarPersona') {
       this.personaEdit = { ...data.user as persona };
@@ -105,6 +114,29 @@ export class EditarusuarioComponent {
     } else if (this.data.type === 'editarUsuario') {
       this.usuarioEdit = { ...data.user as Usuario };  // Asignación de los datos para usuario
     }
+  }
+
+  ngOnInit(): void {
+    // Cargar las sedes desde el servicio con filtro '1'
+    this.sedesService.listarSedes('1').subscribe({
+      next: (response) => {
+        this.sedes = response || []; // Asignar las sedes directamente
+        console.log('Sedes recibidas:', response); // Mostrar las sedes en consola
+      },
+      error: (error) => {
+        this.alertasService.mostrarAlerta('500', 'Error', 'Error al cargar las sedes');
+      }
+    });
+    this.RolService.listarRol('1').subscribe({
+      next: (response) => {
+        this.roles = response || []; // Asignar las sedes directamente
+        console.log('roles recibidos:', response); // Mostrar las sedes en consola
+      },
+      error: (error) => {
+        this.alertasService.mostrarAlerta('500', 'Error', 'Error al cargar las sedes');
+      }
+    });
+  
   }
 
   onCancelClick(): void {
@@ -134,7 +166,7 @@ export class EditarusuarioComponent {
         }
       });
     } else if (this.data.type === 'editarUsuario') {
-      if (!this.usuarioEdit.Usuario || !this.usuarioEdit.ClaveActual || !this.usuarioEdit.NuevaClave || !this.usuarioEdit.IdSede || !this.usuarioEdit.TipoRol_idTipoRol) {
+      if (!this.usuarioEdit.Usuario || !this.usuarioEdit.ClaveActual || !this.usuarioEdit.NuevaClave || !this.usuarioEdit.IdSede || !this.usuarioEdit.IdRol) {
         this.alertasService.WarningAlert('Campos incompletos', 'Por favor, complete todos los campos antes de continuar.');
         console.log(this.usuarioEdit);
         return;

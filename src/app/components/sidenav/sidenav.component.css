@@ -22,9 +22,11 @@
     height: calc(100svh - 65px);
   }
   
-  .mat-list-item, .mat-icon, span {
+  .mat-list-item, .mat-icon, span, .i {
     color: #ffffff !important;
-
+  }
+  .i {
+    color: #ffffff !important;
   }
   .mat-list-item, span {
     color: #ffffff !important;

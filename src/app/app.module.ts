@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MatButtonModule } from '@angular/material/button';
@@ -49,6 +49,8 @@ import { ErrorComponent } from './components/error/error.component';
 import { DenegadoComponent } from './components/denegado/denegado.component';
 import { AgregarusuarioComponent } from './components/dialogs/agregarusuario/agregarusuario.component';
 import { EditarinsumoComponent } from './components/dialogs/editarinsumo/editarinsumo.component';
+import { CambiarclaveComponent } from './components/dialogs/cambiarclave/cambiarclave.component';
+
 
 
 @NgModule({
@@ -76,7 +78,8 @@ import { EditarinsumoComponent } from './components/dialogs/editarinsumo/editari
     ErrorComponent,
     DenegadoComponent,
     AgregarusuarioComponent,
-    EditarinsumoComponent
+    EditarinsumoComponent,
+    CambiarclaveComponent
   ],
   imports: [
     BrowserModule,
@@ -100,7 +103,13 @@ import { EditarinsumoComponent } from './components/dialogs/editarinsumo/editari
     MatSelectModule,
     MatMenuModule,
     MatCheckboxModule,
-    MatDialogModule
+    MatDialogModule,
+    BrowserAnimationsModule, // Necesario para Angular Material
+    MatDialogModule,
+    MatFormFieldModule, // Asegúrate de tener este módulo
+    MatInputModule, // Asegúrate de tener este módulo
+    MatButtonModule, // Si estás utilizando botones de Angular Material
+    ReactiveFormsModule
 
   ],
   providers: [provideHttpClient()],

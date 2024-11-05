@@ -1,6 +1,8 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSidenav } from '@angular/material/sidenav';
+import { CambiarclaveComponent } from '../dialogs/cambiarclave/cambiarclave.component';
 @Component({
   selector: 'app-sidenav',
   templateUrl: './sidenav.component.html',
@@ -10,7 +12,7 @@ export class SidenavComponent implements OnInit{
   @ViewChild(MatSidenav, {static: true})
   sidenav!: MatSidenav;
 
-  constructor(private observer: BreakpointObserver) {
+  constructor(private observer: BreakpointObserver,public dialog: MatDialog) {
 
   }
 
@@ -26,5 +28,10 @@ export class SidenavComponent implements OnInit{
       }
     });
   }
+  openCambiarClave(): void {
+    const dialogRef = this.dialog.open(CambiarclaveComponent, {
+      width: '400px'
+    });
   
+}
 }
